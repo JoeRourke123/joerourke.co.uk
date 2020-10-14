@@ -1,5 +1,5 @@
 {
-  "name": "portfolio",
+  "name": "portfolio.sh",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -11,8 +11,12 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "fs": "0.0.1-security",
+    "node": "latest",
     "nuxt": "^2.14.0",
-    "nuxt-buefy": "^0.3.31"
+    "nuxt-buefy": "^0.3.31",
+    "vue": "^2.6.12",
+    "vue-template-compiler": "^2.6.12"
   },
   "devDependencies": {}
 }
