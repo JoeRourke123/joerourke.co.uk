@@ -19,6 +19,9 @@ export const state = () => ({
       "hangman": "fancy a game of hangman?",
       "console-wars": "alien ships on your tail, shake 'em off",
     },
+    "using the site": {
+      "help": "brings you back here!",
+    },
     "nerdy things": {
       "help -v": "run help in nerd mode",
       "info": "how did this website come about",

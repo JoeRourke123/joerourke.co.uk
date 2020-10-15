@@ -101,6 +101,9 @@
             if (this.readyForNextLine) {
               this.beginNextLine();
             }
+          } else if(e.which === 9) {
+            e.preventDefault();
+            this.tabCompletion(e);
           } else if (e.which === 38 && this.viewingIndex > 0) {
             e.target.innerText = this.history[--this.viewingIndex];
           } else if (e.which === 40) {
@@ -163,6 +166,8 @@
               this.results[index] += "<br />* " + now[i];
             }
 
+            break;
+          case "":
             break;
           case "info":
             this.results[index] = `
@@ -249,6 +254,22 @@
           this.focusInput();
         }, 75);
       },
+      tabCompletion(e) {
+        let command = e.target.innerText;
+        let help = this.$store.state.help;
+
+        for(let key in help) {
+          for(let comm in help[key]) {
+            if(comm.startsWith(command)) {
+              e.target.innerText = comm;
+              e.target.focus();
+              document.execCommand('selectAll', false, null);
+              document.getSelection().collapseToEnd();
+              return;
+            }
+          }
+        }
+      },
       showResume(index) {
         this.results[index] = "";
 
@@ -308,8 +329,10 @@
 
         if(won) {
           buffer += `Congratulations! You correctly guessed the word.<br />`;
-          this.readyForNextLine = true;
+          this.results[--this.lines] = buffer;
           this.hangman.active = false;
+          this.beginNextLine();
+          return;
         }
 
         this.lines--;
@@ -352,6 +375,7 @@
     padding: 0 !important;
     width: 100% !important;
     height: 100vh !important;
+    background-color: #222222;
   }
 
   .is-yellow {
@@ -383,5 +407,14 @@
 
   a:hover {
     text-decoration: underline;
+  }
+
+  pre {
+    color: whitesmoke;
+    background-color: #222222;
+  }
+
+  strong {
+    color: whitesmoke;
   }
 </style>
