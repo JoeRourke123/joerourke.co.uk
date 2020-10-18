@@ -13,7 +13,7 @@
       methods: {
         changedURL(e) {
           if(e.target.src === this.comptuedURL) {
-            
+
           }
         }
       },

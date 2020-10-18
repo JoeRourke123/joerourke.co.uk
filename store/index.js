@@ -170,28 +170,14 @@ export const state = () => ({
     =========`]
 });
 
-export const actions = () => ({
+export const actions = {
   sendEmail(store, { name, email, content }) {
-    // const sgMail = require('@sendgrid/mail');
-    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    // const msg = {
-    //   to: email, // Change to your recipient
-    //   from: "portfolio@joerourke.co.uk", // Change to your verified sender
-    //   subject: "New Message from Portfolio!",
-    //   text: `
-    //   ${content}
-    //
-    //   from,
-    //   ${name}
-    //   `,
-    // };
-    // sgMail
-    //   .send(msg)
-    //   .then(() => {
-    //     console.log("Email Sent!");
-    //   })
-    //   .catch((error) => {
-    //     console.error(error)
-    //   })
+    this.$axios.$post("https://formspree.io/f/xbjpgwnw", {
+      email: email,
+      _subject: "Form Submission from " + name,
+      message: content,
+    }).catch((e) => {
+      throw "Something went wrong when sending the form!";
+    });
   }
-});
+};

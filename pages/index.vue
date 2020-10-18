@@ -57,10 +57,11 @@
         readyForNextLine: true,
 
         viewingIndex: 0,
+        caretInterval: null,
       }
     },
     mounted() {
-      setInterval(() => {
+      this.caretInterval = setInterval(() => {
         if (document.getElementById("caret") != null) {
           if (document.getElementById("caret").innerText === "▋") {
             document.getElementById("caret").innerText = "";
@@ -73,6 +74,9 @@
       setInterval(() => {
         this.focusInput();
       }, 50);
+    },
+    beforeDestroy() {
+      clearInterval(this.caretInterval);
     },
     methods: {
       commChanged(e) {
@@ -231,10 +235,16 @@
           this.form.email = text;
         } else if(this.form.inputIndex === 2) {
           this.form.content = text;
+
+          try {
+            this.$store.dispatch("sendEmail", this.form);
+            this.results[this.lines] += "<br />Thanks for your message. I'll be sure to get back to you as soon as possible!";
+          } catch(e) {
+            this.results[this.lines] += "<br />" + e;
+          }
+
           this.form.active = false;
           this.form.inputIndex = 0;
-
-          this.results[this.lines] += "<br />Thank you so much for your message, I'll get back to you as soon as possible!<br />"
 
           this.beginNextLine();
           return;
