@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="loading-overlay"></div>
-    <iframe @load="changedURL" src="http://localhost:3000" frameborder="0">
+    <iframe @load="changedURL" :src="computedURL" frameborder="0">
 
     </iframe>
   </div>
@@ -12,7 +12,7 @@
       name: "index.vue",
       methods: {
         changedURL(e) {
-          if(e.target.src === this.comptuedURL) {
+          if(e.target.src === this.computedURL) {
 
           }
         }
