@@ -3,9 +3,9 @@ export const state = () => ({
     "seeing my work": {
       "list": "lists all my previous and current experience",
       "now": "what am i working on at the moment?",
-      "projects": "my favourite personal and academic projects",
+      // "projects": "my favourite personal and academic projects",
       "about": "a little bit about me",
-      "blog": "a student's perspective on this and that",
+      // "blog": "a student's perspective on this and that",
     },
     "my other pages": {
       "github": "opens my GitHub page",
@@ -17,13 +17,13 @@ export const state = () => ({
     },
     "fun things": {
       "hangman": "fancy a game of hangman?",
-      "console-wars": "alien ships on your tail, shake 'em off",
+      // "console-wars": "alien ships on your tail, shake 'em off",
     },
     "using the site": {
       "help": "brings you back here!",
     },
     "nerdy things": {
-      "help -v": "run help in nerd mode",
+      // "help -v": "run help in nerd mode",
       "info": "how did this website come about",
       "light-mode": "revert the console colours",
     },

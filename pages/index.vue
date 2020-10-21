@@ -2,6 +2,11 @@
   <div class="terminal is-dark">
     <div class="flex-container">
       <div class="log-list">
+        <div class="command">
+          <span class="line">
+            This is a work in progress. Feel free to try it out though. Run 'help' if you need any :)
+          </span>
+        </div>
         <div class="command" v-for="(line, index) in log">
           <span class="line" v-if="lines === index && readyForNextLine">
             <span class="is-yellow">joe-rourke</span>@<span class="is-red">portfolio</span> $ <span
