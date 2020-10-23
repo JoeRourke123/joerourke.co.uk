@@ -3,7 +3,7 @@ export const state = () => ({
     "seeing my work": {
       "list": "lists all my previous and current experience",
       "now": "what am i working on at the moment?",
-      // "projects": "my favourite personal and academic projects",
+      "projects": "my favourite personal and academic projects",
       "about": "a little bit about me",
       // "blog": "a student's perspective on this and that",
     },
@@ -42,11 +42,23 @@ export const state = () => ({
     "github": "https://github.com/joerourke123",
     "linkedin": "https://linkedin.com/in/joe-rourke",
   },
-
+  projects: {
+    "Shortr": "my A-Level coursework project - uses NLP and a bespoke pattern matching algorithm in order to summarise" +
+      " and aggregate news articles which interest the user. Built using Flask and JavaScript - the project achieved a mark of " +
+      "67 out of 70. I am currently rebuilding it using Django and Vue.JS",
+    "forkie": "A first-year university coursework project, where we were given the requirements of a file repository system and required to implement it." +
+      " This was for an advanced programming module I was selected for. " +
+      "This project was built in a small team where I had to guide and teach most of the members how to use the Flask Python library. It achieved an A grade.",
+    "metamap": "A geolocation based social network built for Royal Hackaway - the biggest hackathon in Surrey. The app was developed" +
+      "using Flutter and the backend with Flask and MongoDB",
+    "pastey/paster": "A winning hackathon project built for the purpose of allowing students to easily transfer files between their " +
+      "their computer and the department's linux server. The frontend and UI were built with Java and the backend in Python running on GCP.",
+    "joerourke.co.uk": "This site - I'm always working on updating it and improving it and making it more and more like a real terminal",
+  },
   now: [
     "I'm always doing work on this site, and my blog where I write about technology, politics, and the environment!",
-    "Rebuilding my A Level coursework as a progressive web app using Vue.JS and Django.",
-    "A music app which generates music through an RNN"
+    "Rebuilding my A Level coursework, a news aggregator and summariser, as a progressive web app using Vue.JS and Django.",
+    "A powerful cross platform mobile browser with integrated DevTools, to finally allow for proper mobile debugging"
   ],
 
   ascii: `<pre style="width: 50%; background: transparent;">
@@ -121,53 +133,53 @@ export const state = () => ({
   hangmanAscii: [`
   +---+
   |   |
-  |
-  |
-  |
-  |
+      |
+      |
+      |
+      |
   =========`, `
   +---+
   |   |
   O   |
-  |
-  |
-  |
+      |
+      |
+      |
   =========`, `
   +---+
   |   |
   O   |
   |   |
-  |
-  |
+      |
+      |
   =========`, `
   +---+
   |   |
   O   |
-  /|   |
-  |
-  |
+ /|   |
+      |
+      |
   =========`, `
   +---+
   |   |
   O   |
-  /|\\  |
-  |
-  |
+ /|\\  |
+      |
+      |
   =========`, `
   +---+
   |   |
   O   |
-  /|\\  |
-    /  |
-    |
+ /|\\  |
+ /    |
+      |
     =========`, `
-    +---+
-    |   |
-    O   |
-    /|\\ |
-    / \\ |
-    |
-    =========`]
+  +---+
+  |   |
+  O   |
+ /|\\  |
+ / \\  |
+      |
+  =========`]
 });
 
 export const actions = {
