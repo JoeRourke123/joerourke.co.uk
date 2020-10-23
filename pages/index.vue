@@ -1,7 +1,7 @@
 <template>
-  <div class="terminal is-dark">
-    <div class="flex-container">
-      <div class="log-list">
+  <div class="terminal is-dark" id="terminal">
+    <div class="flex-container" id="flex-container">
+      <div class="log-list" id="log-list">
         <div class="command">
           <span class="line">
             This is a work in progress. Feel free to try it out though. Run 'help' if you need any :)
@@ -114,8 +114,10 @@
             e.preventDefault();
             this.tabCompletion(e);
           } else if (e.which === 38 && this.viewingIndex > 0) {
+            e.preventDefault();
             e.target.innerText = this.history[--this.viewingIndex];
           } else if (e.which === 40) {
+            e.preventDefault();
             if (this.viewingIndex < this.history.length - 1) {
               e.target.innerText = this.history[++this.viewingIndex];
             } else if(this.viewingIndex === this.history.length - 1) {
@@ -210,6 +212,14 @@
             this.form.active = true;
             this.readyForNextLine = false;
             return;
+          case "projects":
+            this.results[index] = "<div class='textBlock'>Some of my favourite projects (most of them can be found on my GitHub!): <br />";
+            let projects = this.$store.state.projects;
+            for(let project in projects) {
+              this.results[index] += "<strong>" + project + "</strong> - " + projects[project] + "<br /><br />";
+            }
+            this.results[index] += "</div>";
+            break;
           case "help":
             this.showHelp(commOne, index);
             break;
@@ -299,9 +309,21 @@
           this.results[index] += "<span>------------------------------------------------</span><br />"
         }
       },
+      scrollToBottom() {
+        let element = document.getElementById("terminal");
+        element.scrollTop = element.scrollHeight + 9999;
+        element = document.getElementById("log-list");
+        element.scrollTop = element.scrollHeight + 9999;
+        element = document.getElementById("flex-container");
+        element.scrollTop = element.scrollHeight + 9999;
+      },
       handleHangman(letter) {
         let buffer = this.results[this.lines];
         this.lines++;
+
+        if(typeof(letter) === "string") {
+          letter = letter.toLowerCase();
+        }
 
         if(this.hangman.guessed.length === 0 && this.hangman.wrong.length === 0 && this.hangman.word === "") {
           this.hangman.word = this.$store.state.hangmanWords[Math.floor(Math.random() * 200)];
@@ -309,6 +331,11 @@
           letter = "";
         } else if(letter.length > 1) {
           buffer += "Only enter one letter please!<br />";
+        } else if(letter === "") {
+          this.hangman.active = false;
+          --this.lines;
+          this.beginNextLine();
+          return;
         } else if(this.hangman.word.includes(letter)) {
             if(!this.hangman.guessed.includes(letter)) {
               this.hangman.guessed.push(letter);
@@ -340,7 +367,7 @@
             won = false;
           }
         }
-        buffer += "<br /><br />";
+        buffer += "<br /><br />------------------------<br />";
 
         if(won) {
           buffer += `Congratulations! You correctly guessed the word.<br />`;
@@ -349,9 +376,11 @@
           this.beginNextLine();
           return;
         }
-
         this.lines--;
         this.results[this.lines] = buffer;
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 80)
       }
     },
   }
