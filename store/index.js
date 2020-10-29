@@ -42,6 +42,20 @@ export const state = () => ({
     "github": "https://github.com/joerourke123",
     "linkedin": "https://linkedin.com/in/joe-rourke",
   },
+  form: {
+    active: false,
+    inputIndex: 0,
+    promptText: "Enter your name:",
+    name: "",
+    email: "",
+    content: "",
+  },
+  hangman: {
+    active: false,
+    guessed: [],
+    word: "",
+    wrong: [],
+  },
   projects: {
     "Shortr": "my A-Level coursework project - uses NLP and a bespoke pattern matching algorithm in order to summarise" +
       " and aggregate news articles which interest the user. Built using Flask and JavaScript - the project achieved a mark of " +

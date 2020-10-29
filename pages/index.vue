@@ -43,21 +43,8 @@
         history: [],
         results: [],
 
-        form: {
-          active: false,
-          inputIndex: 0,
-          promptText: "Enter your name:",
-          name: "",
-          email: "",
-          content: "",
-        },
-
-        hangman: {
-          active: false,
-          guessed: [],
-          word: "",
-          wrong: [],
-        },
+        form: JSON.parse(JSON.stringify(this.$store.state.form)),
+        hangman: JSON.parse(JSON.stringify(this.$store.state.hangman)),
 
         readyForNextLine: true,
 
@@ -148,6 +135,8 @@
             this.viewingIndex = -1;
             this.log = [];
             this.results = [];
+            this.form = JSON.parse(JSON.stringify(this.$store.state.form));
+            this.hangman = JSON.parse(JSON.stringify(this.$store.state.hangman));
 
             if (index === 0) {
               document.getElementById("editor").innerText = "";
