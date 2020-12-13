@@ -11,20 +11,15 @@
           <span class="line">
             <span class="is-yellow">joe-rourke</span>@<span class="is-red">portfolio</span> $ 
               <span v-if="lines === index && readyForNextLine">
-                <span @keydown="commChanged" id="editor" contenteditable></span>
-                <span id="caret"></span>
+                <span @keydown="commChanged" id="editor" contenteditable></span><span id="caret"></span>
               </span>
               <span v-else>
                 {{ command }}
               </span>
           </span>
           <div class="results" v-if="index < lines || !readyForNextLine">
-            <span v-if="index < lines">
-              {{ results[index] }}
-            </span>
-            <span v-else>
-              {{ currentResult }}
-            </span>
+            <span v-html="results[index]" v-if="index < lines"></span>
+            <span v-html="currentResult" v-else></span>
           </div>
         </div>
       </div>
@@ -38,7 +33,6 @@
     name: 'Terminal',
     data() {
       return {
-        viewingIndex: 0,
         caretInterval: null,
       }
     },
@@ -68,86 +62,32 @@
       clearInterval(this.caretInterval);
     },
     methods: {
-      commChanged(e) {
-        e.preventDefault();
-        
-        try {
-          if (e.which === 13) {   // Enter pressed
-
-          } else if(e.which === 9) {    // Tab pressed
-            this.tabCompletion(e);
-          } else if (e.which === 38 && this.viewingIndex > 0) {   // Go back in history (down pressed)
-            e.target.innerText = this.history[--this.viewingIndex];
-          } else if (e.which === 40) {
-            if (this.viewingIndex < this.history.length - 1) {    // Go forward in history (up pressed)
-              e.target.innerText = this.history[++this.viewingIndex];
-            } else if(this.viewingIndex === this.history.length - 1) {
-              e.target.innerText = "";
-            }
-          } else if (e.which === 37 || e.which === 39) {        // Left and right buttons pressed
-          }
-        } catch (e) {
-          console.error(e);
+      commChanged(e) {        
+        if (e.which === 13) {   // Enter pressed
+          e.preventDefault();
+          this.$store.dispatch('handleCommand', e.target.innerText);
+        } else if(e.which === 9) {    // Tab pressed
+          e.preventDefault();
+          e.target.innerText = this.$store.getters.tabCompletion(e.target.innerText) ?? e.target.innerText;
+          let range = document.createRange();//Create a range (a range is a like the selection but invisible)
+          range.selectNodeContents(e.target);//Select the entire contents of the element with the range
+          range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+          let selection = window.getSelection();//get the selection object (allows you to change selection)
+          selection.removeAllRanges();//remove any selections already made
+          selection.addRange(range);//make the range you have just created the visible selection
+        } else if(e.which === 38) { 
+          e.preventDefault();
+          this.$store.commit('historyUp');
+          e.target.innerText = this.$store.getters.currentHistory() ?? "";
+        } else if(e.which === 40) {
+          e.preventDefault();
+          this.$store.commit('historyDown');
+          e.target.innerText = this.$store.getters.currentHistory() ?? "";
         }
       },
       focusInput() {
         if (document.getElementById("editor")) {
           document.getElementById("editor").focus();
-        }
-      },
-      handleFormEnter(text) {
-        this.results[this.lines] += `${this.form.promptText} ${text}<br />`;
-        this.form.promptText = ["Enter your email:", "Your message:", "Enter your name:"][this.form.inputIndex];
-
-        if(this.form.inputIndex === 0) {
-          this.form.name = text;
-        } else if(this.form.inputIndex === 1) {
-          this.form.email = text;
-        } else if(this.form.inputIndex === 2) {
-          this.form.content = text;
-
-          try {
-            this.$store.dispatch("sendEmail", this.form);
-            this.results[this.lines] += "<br />Thanks for your message. I'll be sure to get back to you as soon as possible!";
-          } catch(e) {
-            this.results[this.lines] += "<br />" + e;
-          }
-
-          this.form.active = false;
-          this.form.inputIndex = 0;
-
-          this.beginNextLine();
-          return;
-        }
-
-        this.form.inputIndex++;
-      },
-      beginNextLine() {
-        this.lines++;
-        this.viewingIndex = this.history.length;
-
-        this.readyForNextLine = true;
-
-        this.log.push("");
-
-        setTimeout(() => {
-          this.focusInput();
-        }, 75);
-      },
-      tabCompletion(e) {
-        let command = e.target.innerText;
-        let help = this.$store.state.help;
-
-        for(let key in help) {
-          for(let comm in help[key]) {
-            if(comm.startsWith(command)) {
-              e.target.innerText = comm;
-              e.target.focus();
-              document.execCommand('selectAll', false, null);
-              document.getSelection().collapseToEnd();
-              return;
-            }
-          }
         }
       },
       scrollToBottom() {
