@@ -1,14 +1,29 @@
+export const strict = false;
+
 export default () => ({
     currentResult: ``,
     results: [],
-    log: [],
+    log: [''],
+    history: [],
     lines: 0,
+    hasBeenCleared: false,
     readyForNextLine: true,
+    historyIndex: -1,
 
-    descriptions: [],
+    commands: ["about", "uname -a", "email", "github", "linkedin", "lightmode", "clear", "resume", "now", "projects", "hangman", "form", "help"],
+    descriptions: [
+        "just a bit about me", "the tech behind this",
+        "for enquiries and business talk", "checkout some of my projects",
+        "go to my linkedin profile", "for burning your eyes",
+        "clean up the screen", "my professional work",
+        "what i've been working on recently", "some of my favourite personal/uni projects",
+        "the classic game", "to shoot me a quick message", "to get back here!"
+    ],
     groupings: {
-        "about me and my projects": ["about", ""],
-        "nerdy stuff": ["lightmode", "sl", "clear", "about"],
+        "about me and my projects": [0, 7, 8, 9],
+        "nerdy stuff": [1, 5],
+        "get in touch": [2, 3, 4, 11],
+        "messin' around": [10, 12]
     },
 
     info: {

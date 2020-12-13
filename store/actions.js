@@ -1,3 +1,7 @@
+
+
+export const strict = false;
+
 export default {
     sendEmail(store, { name, email, content }) {
         this.$axios.$post("https://formspree.io/f/xbjpgwnw", {
@@ -10,6 +14,6 @@ export default {
     },
 
     handleCommand(store, command) {
-        
+        this.commit("commandMutation", command);
     }
 }

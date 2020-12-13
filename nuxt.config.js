@@ -66,5 +66,12 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
+    extend: function (config, { isDev, isClient }) {
+
+      config.node = {
+
+        fs: "empty"
+      };
+    }
   }
 }
