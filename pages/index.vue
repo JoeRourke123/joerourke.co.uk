@@ -18,6 +18,14 @@
                 {{ command }}
               </span>
           </span>
+          <div class="results" v-if="index < lines || !readyForNextLine">
+            <span v-if="index < lines">
+              {{ results[index] }}
+            </span>
+            <span v-else>
+              {{ currentResult }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
