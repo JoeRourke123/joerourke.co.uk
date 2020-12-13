@@ -38,7 +38,7 @@ export default {
         let result = ``;
         for(let i = state.info.resume.workplaces.length - 1; i >= 0; i--) {
             result += state.info.resume.workplaces[i];
-            result += `<strong>${state.info.roles[i]}</strong>`;
+            result += `<strong>${state.info.resume.roles[i]}</strong>`;
             result += `<br /><div class="wideTextBlock">${state.info.resume.descriptions[i]}</div>`;
             result += "<span>------------------------------------------------</span><br />"
         }

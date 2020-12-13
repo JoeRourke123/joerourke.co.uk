@@ -55,7 +55,7 @@ export default () => ({
             </div>`,
         },
         resume: {
-            titles: [
+            workplaces: [
                 `<pre class="workplaceTitle">
                 ___                       _     _  _         _   _                                       ___   ___     ___                              _                          _   
                | _ \\  ___   _  _   __ _  | |   | || |  ___  | | | |  ___  __ __ __  __ _   _  _         / __| / __|   |   \\   ___   _ __   __ _   _ _  | |_   _ __    ___   _ _   | |_ 
