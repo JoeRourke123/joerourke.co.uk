@@ -7,24 +7,17 @@
             This is a work in progress. Feel free to try it out though. Run 'help' if you need any :)
           </span>
         </div>
-        <div class="command" v-for="(line, index) in log">
-          <span class="line" v-if="lines === index && readyForNextLine">
-            <span class="is-yellow">joe-rourke</span>@<span class="is-red">portfolio</span> $ <span
-            @keydown="commChanged" id="editor" :contenteditable="lines === index"></span><span id="caret"></span>
+        <div class="command" :key="index" v-for="(command, index) in log">
+          <span class="line">
+            <span class="is-yellow">joe-rourke</span>@<span class="is-red">portfolio</span> $ 
+              <span v-if="lines === index && readyForNextLine">
+                <span @keydown="commChanged" id="editor" contenteditable></span>
+                <span id="caret"></span>
+              </span>
+              <span v-else>
+                {{ command }}
+              </span>
           </span>
-          <span v-else>
-            <span class="is-yellow">joe-rourke</span>@<span class="is-red">portfolio</span> $ {{ line }}
-          </span>
-          <div class="results" v-if="index < lines || (index === lines && !readyForNextLine)">
-            <br/>
-            <span v-html="results[index]"></span>
-          </div>
-        </div>
-        <div class="form" v-if="!readyForNextLine && form.active">
-          <span>{{ form.promptText }}</span> <span id="editor" @keydown="commChanged" contenteditable></span><span id="caret"></span>
-        </div>
-        <div class="hangman" v-else-if="!readyForNextLine && hangman.active">
-          <span>Your Guess: </span><span id="editor" @keydown="commChanged" contenteditable></span><span id="caret"></span>
         </div>
       </div>
     </div>
@@ -37,20 +30,16 @@
     name: 'Terminal',
     data() {
       return {
-        lines: 0,
-
-        log: [""],
-        history: [],
-        results: [],
-
-        form: JSON.parse(JSON.stringify(this.$store.state.form)),
-        hangman: JSON.parse(JSON.stringify(this.$store.state.hangman)),
-
-        readyForNextLine: true,
-
         viewingIndex: 0,
         caretInterval: null,
       }
+    },
+    computed: {
+      log() { return this.$store.state.log; },
+      lines() { return this.$store.state.lines; },
+      currentResult() { return this.$store.state.currentResult; },
+      results() { return this.$store.state.results; },
+      readyForNextLine() { return this.$store.state.readyForNextLine; },
     },
     mounted() {
       this.caretInterval = setInterval(() => {
@@ -72,161 +61,30 @@
     },
     methods: {
       commChanged(e) {
-        console.log(e);
+        e.preventDefault();
+        
         try {
-          if (e.which === 13) {
-            e.preventDefault();
+          if (e.which === 13) {   // Enter pressed
 
-            if (this.form.active) {
-              this.handleFormEnter(e.target.innerText);
-              e.target.innerText = "";
-              return;
-            } else if(this.hangman.active) {
-              this.handleHangman(e.target.innerText);
-              e.target.innerText = "";
-              return;
-            }
-
-            this.log[this.lines] = e.target.innerText;
-            if(this.history[this.history.length - 1] !== e.target.innerText) {
-              this.history.push(e.target.innerText);
-            }
-
-            this.runCommand(this.lines, this.log[this.lines]);
-
-            if (this.readyForNextLine) {
-              this.beginNextLine();
-            }
-          } else if(e.which === 9) {
-            e.preventDefault();
+          } else if(e.which === 9) {    // Tab pressed
             this.tabCompletion(e);
-          } else if (e.which === 38 && this.viewingIndex > 0) {
-            e.preventDefault();
+          } else if (e.which === 38 && this.viewingIndex > 0) {   // Go back in history (down pressed)
             e.target.innerText = this.history[--this.viewingIndex];
           } else if (e.which === 40) {
-            e.preventDefault();
-            if (this.viewingIndex < this.history.length - 1) {
+            if (this.viewingIndex < this.history.length - 1) {    // Go forward in history (up pressed)
               e.target.innerText = this.history[++this.viewingIndex];
             } else if(this.viewingIndex === this.history.length - 1) {
               e.target.innerText = "";
             }
-          } else if (e.which === 37 || e.which === 39) {
-            e.preventDefault();
+          } else if (e.which === 37 || e.which === 39) {        // Left and right buttons pressed
           }
         } catch (e) {
-          console.log(e);
+          console.error(e);
         }
       },
       focusInput() {
         if (document.getElementById("editor")) {
           document.getElementById("editor").focus();
-        }
-      },
-      runCommand(index, command) {
-        let parsedArgs = command.toLowerCase().split(" ");
-        let commOne = parsedArgs[0];
-
-        switch (commOne) {
-          case "hello":
-            this.results[index] = "Hello there!";
-            break;
-          case "clear":
-            this.lines = -1;
-            this.viewingIndex = -1;
-            this.log = [];
-            this.results = [];
-            this.form = JSON.parse(JSON.stringify(this.$store.state.form));
-            this.hangman = JSON.parse(JSON.stringify(this.$store.state.hangman));
-
-            if (index === 0) {
-              document.getElementById("editor").innerText = "";
-            }
-            break;
-          case "light-mode":
-            this.results[index] = "I'm sorry Dave, I'm afraid I can't do that.<br />";
-            break;
-          case "list":
-            this.showResume(index);
-            break;
-          case "about":
-            let ascii = this.$store.state["ascii"];
-            this.results[index] = ascii;
-            this.results[index] += "<div class='textBlock'>";
-            this.results[index] += this.$store.state["about"];
-            this.results[index] += "</div>";
-            break;
-          case "now":
-            this.results[index] += "<br />* Rebuilding my A Level coursework as a progressive web app using Vue.JS and Django.";
-            this.results[index] += "<br />* A music app which generates music through an RNN";
-
-            let now = this.$store.state['now'];
-
-            this.results[index] = "* " + now[0];
-            for(let i = 1; i < now.length; i++) {
-              this.results[index] += "<br />* " + now[i];
-            }
-
-            break;
-          case "":
-            break;
-          case "info":
-            this.results[index] = `
-            <div class="textBlock">
-              portfolio site version 1.0<br/>
-              using software:<br/>
-              &nbsp; - nuxt (build ^2.14.0)<br />
-              developed with:<br />
-              &nbsp; - my slightly decrepid 2015 15" MacBook Pro<br />
-              &nbsp; - sheer determination, plenty of bugs, and many cups of tea
-            </div>
-          `;
-            break;
-          case "email":
-            this.results[index] = "Your wish is my command... you can get in touch me with on:<br />";
-            this.results[index] += `<a href='mailto://${this.$store.state['email']}'>${this.$store.state['email']}</a>`;
-            break;
-          case "hangman":
-            this.readyForNextLine = false;
-            this.hangman.active = true;
-            this.handleHangman("");
-            return;
-          case "github":
-          case "linkedin":
-            let url = this.$store.state["urls"][commOne];
-            this.results[index] = "";
-            window.open(url, "_blank");
-            break;
-          case "form":
-            this.results[index] = "";
-            this.form.active = true;
-            this.readyForNextLine = false;
-            return;
-          case "projects":
-            this.results[index] = "<div class='textBlock'>Some of my favourite projects (most of them can be found on my GitHub!): <br />";
-            let projects = this.$store.state.projects;
-            for(let project in projects) {
-              this.results[index] += "<strong>" + project + "</strong> - " + projects[project] + "<br /><br />";
-            }
-            this.results[index] += "</div>";
-            break;
-          case "help":
-            this.showHelp(commOne, index);
-            break;
-          default:
-            this.results[index] = `${commOne} is not a recognised command.<br /> Run 'help' to see the available commands.`
-        }
-
-        this.readyForNextLine = true;
-      },
-      showHelp(commOne, index) {
-        let helpData = this.$store.state[commOne];
-        this.results[index] = "";
-
-        for (const key in helpData) {
-          this.results[index] += `${key}</br>`;
-          for (const comm in helpData[key]) {
-            this.results[index] += `&emsp;&emsp;${comm}&emsp;&emsp;${helpData[key][comm]}</br>`
-          }
         }
       },
       handleFormEnter(text) {
@@ -284,20 +142,6 @@
           }
         }
       },
-      showResume(index) {
-        this.results[index] = "";
-
-        const workplaces = this.$store.state['workplaceTitles'];
-        const titles = this.$store.state['jobTitles'];
-        const descriptions = this.$store.state['jobDescriptions'];
-
-        for(let i = workplaces.length - 1; i >= 0; i--) {
-          this.results[index] += workplaces[i];
-          this.results[index] += `<strong>${titles[i]}</strong>`;
-          this.results[index] += `<br /><div class="wideTextBlock">${descriptions[i]}</div>`;
-          this.results[index] += "<span>------------------------------------------------</span><br />"
-        }
-      },
       scrollToBottom() {
         let element = document.getElementById("terminal");
         element.scrollTop = element.scrollHeight + 9999;
@@ -306,71 +150,6 @@
         element = document.getElementById("flex-container");
         element.scrollTop = element.scrollHeight + 9999;
       },
-      handleHangman(letter) {
-        let buffer = this.results[this.lines];
-        this.lines++;
-
-        if(typeof(letter) === "string") {
-          letter = letter.toLowerCase();
-        }
-
-        if(this.hangman.guessed.length === 0 && this.hangman.wrong.length === 0 && this.hangman.word === "") {
-          this.hangman.word = this.$store.state.hangmanWords[Math.floor(Math.random() * 200)];
-          buffer = "";
-          letter = "";
-        } else if(letter.length > 1) {
-          buffer += "Only enter one letter please!<br />";
-        } else if(letter === "") {
-          this.hangman.active = false;
-          --this.lines;
-          this.beginNextLine();
-          return;
-        } else if(this.hangman.word.includes(letter)) {
-            if(!this.hangman.guessed.includes(letter)) {
-              this.hangman.guessed.push(letter);
-            }
-        } else if(!this.hangman.word.includes(letter) && !this.hangman.wrong.includes(letter)) {
-          buffer += letter + " is not a part of the word!<br />";
-          this.hangman.wrong.push(letter);
-
-          buffer += `<pre>${ this.$store.state.hangmanAscii[this.hangman.wrong.length - 1] }</pre><br />`;
-
-          let max = this.$store.state.hangmanAscii.length;
-          if(this.hangman.wrong.length >= max) {
-            buffer += `Oh no, you lost... the word was '${ this.hangman.word }'<br />`;
-            this.hangman.active = false;
-            this.results[--this.lines] = buffer;
-            this.beginNextLine();
-            return;
-          }
-        }
-
-        buffer += `<br />Wrong Guesses: ${this.hangman.wrong}<br />`;
-        buffer += `Word: `;
-        let won = true;
-        for(let letter of this.hangman.word.split("")) {
-          if(this.hangman.guessed.includes(letter)) {
-            buffer += letter + " ";
-          } else {
-            buffer += "_ ";
-            won = false;
-          }
-        }
-        buffer += "<br /><br />------------------------<br />";
-
-        if(won) {
-          buffer += `Congratulations! You correctly guessed the word.<br />`;
-          this.results[--this.lines] = buffer;
-          this.hangman.active = false;
-          this.beginNextLine();
-          return;
-        }
-        this.lines--;
-        this.results[this.lines] = buffer;
-        setTimeout(() => {
-          this.scrollToBottom();
-        }, 80)
-      }
     },
   }
 </script>
