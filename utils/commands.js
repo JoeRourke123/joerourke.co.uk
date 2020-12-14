@@ -83,10 +83,34 @@ export default {
     hangman (store, command) {
         hangmanFunctionality(store);
     },
-    coffee(store) {
+    coffee(store, command) {
         window.open(store.state.info.buy_a_coffee, "_blank");
     },
-    sl(store) {
-        
+    async haha(store, command) {
+        store.commit("appendResults", "Loading...");
+        let joke = await this.$axios.$get("https://icanhazdadjoke.com/", {
+            headers: {
+                "Accept": "text/plain"
+            }
+        });
+
+        store.commit("setResults", joke + "<br />");
+    },
+    async affirm(store, command) {
+        store.commit("appendResults", "Loading...");
+        let affirmation = await this.$axios.$get("https://www.affirmations.dev/", {
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+        store.commit("setResults", affirmation['affirmation'] + "<br />");
+    },
+    async doggo(store, command) {
+        store.commit("appendResults", "Loading... cuteness pending...");
+        let doggoEntry = await this.$axios.$get("https://api.thedogapi.com/v1/images/search?api_key=2f37a67a-d80a-4ce0-8d6e-b902d99de000&mime_types=gif");
+        store.commit("setResults", `<br /><img src="${ doggoEntry[0]['url'] }" /><br /><br />`)
+    },
+    lauren(store) {
+        store.commit("appendResults", "I love you so so much baby :p<br /><br />");
     }
 };
