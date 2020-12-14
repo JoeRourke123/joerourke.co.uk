@@ -85,5 +85,8 @@ export default {
     },
     coffee(store) {
         window.open(store.state.info.buy_a_coffee, "_blank");
+    },
+    sl(store) {
+        
     }
 };

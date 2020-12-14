@@ -19,6 +19,9 @@ export default {
     appendResults(state, result) {
         state.currentResult += result;
     },
+    setResults(state, result) {
+        state.currentResult = result;
+    },
     postCommand(state, command) {
         if (!state.haltNextLine) {
             state.readyForNextLine = true;

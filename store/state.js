@@ -136,6 +136,14 @@ export default () => ({
             "pastey/paster": "A winning hackathon project built for the purpose of allowing students to easily transfer files between their " +
               "their computer and the department's linux server. The frontend and UI were built with Java and the backend in Python running on GCP.",
             "joerourke.co.uk": "This site - I'm always working on updating it and improving it and making it more and more like a real terminal",
-        }
+        },
+        sl: `
+<pre>
+      o x o x o x o . . .
+    o      _____            _______________ ___=====__T___
+  .][__n_n_|DD[  ====_____  |    |.\/.|   | |   |_|     |_
+>(________|__|_[_________]_|____|_/\_|___|_|___________|_|
+_/oo OOOOO oo\`  ooo   ooo   o^o       o^o   o^o     o^o        
+</pre>`
     }
 });
