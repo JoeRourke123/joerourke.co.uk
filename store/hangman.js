@@ -55,18 +55,61 @@ export const state = () => ({
 });
 
 export const mutations = {
-    resetGame(state) {
-        state.game = {
-            active: false,
-            guessed: [],
-            word: "",
-            wrong: [],
-        };
+    guess(state, letter) {
+
+    },
+    incrementRound(state) {
+        state.game.round += 1;
+    },
+    setGame(state, game) {
+        state.game = game;
     }
 }
 
-export const actions = {
-    startGame(store) {
-        store.commit('resetGame');
+function addFieldBehaviour(el, store) {
+    let currentRound = store.state.hangman.game.round;
+    el.contentEditable = true;
+    el.onkeydown = (e) => {
+        if (e.which === 13 && e.target.innerText.length <= 1) {
+            store.commit("hangman/guess", e.target.innerText);
+        } else if (e.which === 13 && e.target.innerText.length > 1) {
+            store.commit("hangman/incrementRound");
+
+            let result = `You must only enter one, letter please try again.<br />`;
+            result += `<span>><span id="hangmanGuess${store.state.hangman.game.round}"></span></span>`;
+
+            store.commit("appendResults", result);
+
+            setTimeout(() => { addFieldBehaviour(document.getElementById("hangmanGuess" + store.state.hangman.game.round), store); }, 75);
+        }
     }
+    el.focus();
+}
+
+export const hangmanFunctionality = (store) => {
+    let state = store.state;
+
+    store.commit("hangman/setGame", {
+        guessed: [],
+        word: state.hangman.words[Math.floor(Math.random() * state.hangman.words.length)],
+        round: 0,
+        wrong: [],
+    });
+
+    store.commit("setHaltNextLine", true);
+
+    let result = '';
+    for (let i = 0; i < state.hangman.game.word.length; i++) {
+        result += '_ ';
+    }
+    result += '<br />';
+
+    result += `<span>><span id="hangmanGuess"></span></span>`;
+
+    store.commit("appendResults", result);
+
+    setTimeout(() => {
+        let hmGuess = document.getElementById("hangmanGuess");
+        addFieldBehaviour(hmGuess, store);
+    }, 75)
 }

@@ -1,4 +1,21 @@
+import commandActions from '../utils/commands.js';
 
+function splitCommand(command) {
+    let result = "";
+    let spaceSplit = command.split(" ");
+    let i = 0;
+    for (; i < spaceSplit.length; i++) {
+        if (i === 0) {
+            result += spaceSplit[i];
+        } else if (spaceSplit[i].startsWith("-")) {
+            result += ' ' + spaceSplit[i];
+        } else {
+            break;
+        }
+    }
+
+    return [result, ...spaceSplit.slice(i, spaceSplit.length)];
+}
 
 export const strict = false;
 
@@ -12,8 +29,20 @@ export default {
             throw "Something went wrong when sending the form!";
         });
     },
+    ...commandActions,
+
 
     handleCommand(store, command) {
-        this.commit("commandMutation", command);
+        store.commit("preCommand");
+
+        let runnable = splitCommand(command);
+
+        if(runnable[0] in this._actions) {
+            store.dispatch(runnable[0], command);
+        } else {
+            store.commit("appendResults", `${runnable[0]}: command not found.`);
+        }
+
+        store.commit("postCommand", command);
     }
 }

@@ -1,35 +1,46 @@
 export const strict = false;
 
 export default () => ({
+    // Related to main terminal functionality
     currentResult: ``,
     results: [],
     log: [''],
-    history: [],
     lines: 0,
-    hasBeenCleared: false,
-    readyForNextLine: true,
+
+    store: null,
+
+    // History related states
+    history: [],
     historyIndex: -1,
 
-    commands: ["about", "uname -a", "email", "github", "linkedin", "lightmode", "clear", "resume", "now", "projects", "hangman", "form", "help"],
+    // Flag states
+    hasBeenCleared: false,
+    readyForNextLine: true,
+    haltNextLine: false,
+
+    commands: ["help", "about", "uname -a", "email", "github", "linkedin", "lightmode", 
+    "clear", "resume", "now", "projects", "hangman", "form", "coffee"],
     descriptions: [
-        "just a bit about me", "the tech behind this",
+        "to get back here!", "just a bit about me", "the tech behind this",
         "for enquiries and business talk", "checkout some of my projects",
         "go to my linkedin profile", "for burning your eyes",
         "clean up the screen", "my professional work",
         "what i've been working on recently", "some of my favourite personal/uni projects",
-        "the classic game", "to shoot me a quick message", "to get back here!"
+        "the classic game", "to shoot me a quick message",
+        "any donations would be greatly appreciated!"
     ],
     groupings: {
-        "about me and my projects": [0, 7, 8, 9],
-        "nerdy stuff": [1, 5],
-        "get in touch": [2, 3, 4, 11],
-        "messin' around": [10, 12]
+        "about me and my projects": [1, 8, 9, 10, 13],
+        "nerdy stuff": [2, 6],
+        "get in touch": [3, 4, 5, 12],
+        "messin' around": [11, 13]
     },
 
     info: {
         email: "hello@joerourke.co.uk",
         github: "https://github.com/joerourke123",
         linkedin: "https://linkedin.com/in/joe-rourke",
+        buy_a_coffee: "https://www.buymeacoffee.com/joerourke",
         about: {
             ascii: `<pre style="width: 50%; background: transparent;">
             /\\\\\\\\\\\\\\\\\\\\

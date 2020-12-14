@@ -1,15 +1,17 @@
+import { hangmanFunctionality } from '../store/hangman';
+
 export default {
-    email (state) {
-        state.currentResult += `Your wish is my command... you can get in touch me with on:<br /><a href='mailto://${state.info.email}'>${this.state.info.email}</a>`;
+    email (store, command) {
+        store.commit("appendResults", `Your wish is my command... you can get in touch me with on:<br /><a href='mailto://${state.info.email}'>${this.state.info.email}</a>`);
     },
-    github (state) {
-        window.open(state.info.github, "_blank");
+    github (store, command) {
+        window.open(store.state.info.github, "_blank");
     },
-    linkedin (state) {
-        window.open(state.info.linkedin, "_blank");
+    linkedin (store, command) {
+        window.open(store.state.info.linkedin, "_blank");
     },
-    ["uname -a"] (state) {
-        state.currentResult += `
+    ["uname -a"] (store, command) {
+        store.commit("appendResults", `
         <div class="textBlock">
             portfolio site version 2.0<br/>
             using software:<br/>
@@ -17,24 +19,20 @@ export default {
             developed with:<br />
             &nbsp; * my slightly decrepid 2015 15" MacBook Pro<br />
             &nbsp; * sheer determination, plenty of bugs, and many cups of tea
-        </div>`;
+        </div>`);
     },
-    sudo (state) {
-        state.currentResult += `This account is not in the sudoers file. This incident will be reported.`
+    sudo (store, command) {
+        store.commit("appendResults", `This account is not in the sudoers file. This incident will be reported.`);
     },
-    lightmode (state) {
-        state.currentResult += `I'm sorry Dave, I'm afraid I can't do that`;
+    lightmode (store, command) {
+        store.commit("appendResults", `I'm sorry Dave, I'm afraid I can't do that`);
     },
-    "" (state) {
-        state.currentResult += ``;
+    "" (store, command) {},
+    clear (store, command) {
+        store.commit("clearTerminal");
     },
-    clear (state) {
-        state.lines = 0;
-        state.log = [''];
-        state.results = [];
-        state.hasBeenCleared = true;
-    },
-    resume (state) {
+    resume (store, command) {
+        let state = store.state;
         let result = ``;
         for(let i = state.info.resume.workplaces.length - 1; i >= 0; i--) {
             result += state.info.resume.workplaces[i];
@@ -43,28 +41,34 @@ export default {
             result += "<span>------------------------------------------------</span><br />"
         }
         
-        state.currentResult += result;
+        store.commit("appendResults", result);
     },
-    about (state) {
-        state.currentResult += state.info.about.ascii + state.info.about.bio;
+    about (store, command) {
+        store.commit("appendResults", store.state.info.about.ascii + store.state.info.about.bio);
     },
-    now (state) {
+    now (store, command) {
+        let state = store.state;
+
         let result = ``;
         for(let project of state.info.now) {
             result += `* ` + project + `<br />`
         }
 
-        state.currentResult += result;
+        store.commit("appendResults", result);
     },
-    projects (state) {
+    projects (store, command) {
+        let state = store.state;
+
         let result = ``;
         for(let project in state.info.projects) {
             result += `* ${project} - ${state.info.projects[project]}<br /><br />`
         }
 
-        state.currentResult += result;
+        store.commit("appendResults", result);
     },
-    help (state) {
+    help (store, command) {
+        let state = store.state;
+
         let result = '';
         for(let group in state.groupings) {
             result += `* <strong>${group}</strong><br />`;
@@ -74,6 +78,12 @@ export default {
             result += '<br />';
         }
 
-        state.currentResult += result;
+        store.commit("appendResults", result);
+    },
+    hangman (store, command) {
+        hangmanFunctionality(store);
+    },
+    coffee(store) {
+        window.open(store.state.info.buy_a_coffee, "_blank");
     }
 };
