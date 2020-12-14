@@ -1,3 +1,5 @@
+export const strict = false;
+
 export const state = () => ({
     art: [`
     +---+
@@ -55,32 +57,105 @@ export const state = () => ({
 });
 
 export const mutations = {
-    guess(state, letter) {
-
-    },
-    incrementRound(state) {
-        state.game.round += 1;
-    },
     setGame(state, game) {
         state.game = game;
+    },
+    addToWrong(state, letter) {
+        state.game.wrong.push(letter);
+    },
+    addToGuesses(state, letter) {
+        state.game.guessed.push(letter);
+    }
+}
+
+export const actions = {
+    guess(store, letter) {
+        let fullyGuessed = true;
+        let result = "<br /><br />";
+        let hasGuessed = store.state.game.guessed.includes(letter) || store.state.game.wrong.includes(letter);
+        let inWord = store.state.game.word.includes(letter);
+
+        let attempts = store.state.game.wrong.length;
+        let attemptsAllowed = store.state.art.length;
+        
+        if (hasGuessed) {
+            result += `You have already guessed '${letter}'!<br />`;
+        } else if (inWord) {
+            store.commit("addToGuesses", letter);
+        } else if (attempts < attemptsAllowed) {
+            result += `Wrong... '${letter}' is not in the word!<br />`;
+            store.commit("addToWrong", letter);
+            attempts++;
+        }
+
+        if (attempts > 0) {
+            result += `<pre style="width: 30%; background: transparent;">${store.state.art[attempts - 1]}</pre><br />`;
+        }
+
+        if (!inWord && attempts >= attemptsAllowed) {
+            result += `Uh oh... you've died... the word was '${store.state.game.word}'<br />`;
+            store.commit("appendResults", result, { root: true });
+            store.commit("setHaltNextLine", false, { root: true });
+            store.commit("postCommand", null, { root: true });
+            return;
+        } else {
+
+            if(store.state.game.wrong.length > 0) {
+                result += `Wrong guesses: ${JSON.stringify(store.state.game.wrong)}<br />`;
+            }
+
+            for (let char of store.state.game.word) {
+                if (store.state.game.guessed.includes(char)) {
+                    result += char + " ";
+                } else {
+                    result += "_ ";
+                    fullyGuessed = false;
+                }
+            }
+
+            result += "<br />";
+        }
+
+        if(fullyGuessed) {
+            store.commit("appendResults", `<br /><br />Yay! You guessed the word '${store.state.game.word}'.<br />`, { root: true });
+            store.commit("setHaltNextLine", false, { root: true });
+            store.commit("postCommand", null, { root: true });
+        } else {
+            store.commit("appendResults", result, { root: true });
+        }
     }
 }
 
 function addFieldBehaviour(el, store) {
-    let currentRound = store.state.hangman.game.round;
     el.contentEditable = true;
     el.onkeydown = (e) => {
-        if (e.which === 13 && e.target.innerText.length <= 1) {
-            store.commit("hangman/guess", e.target.innerText);
-        } else if (e.which === 13 && e.target.innerText.length > 1) {
-            store.commit("hangman/incrementRound");
+        if(e.which === 13) {
+            e.preventDefault();
+            el.blur();
 
-            let result = `You must only enter one, letter please try again.<br />`;
-            result += `<span>><span id="hangmanGuess${store.state.hangman.game.round}"></span></span>`;
+            el.contentEditable = false;
+            el.classList.remove("hangmanGuess");
+
+            let result = "";
+
+            if (el.innerText.length <= 1) {
+                store.dispatch("hangman/guess", el.innerText);
+
+                if(store.state.readyForNextLine && !store.state.haltNextLine) {
+                    return;
+                }
+            } else {
+                result += `<br />You must only enter one, letter please try again.<br />`;
+            }
+
+            result += `<span>><span class="hangmanGuess"></span></span>`;
 
             store.commit("appendResults", result);
 
-            setTimeout(() => { addFieldBehaviour(document.getElementById("hangmanGuess" + store.state.hangman.game.round), store); }, 75);
+            setTimeout(() => { 
+                let hmGuess = document.getElementsByClassName("hangmanGuess");
+                addFieldBehaviour(hmGuess[hmGuess.length - 1], store); 
+            }, 75);
         }
     }
     el.focus();
@@ -104,12 +179,12 @@ export const hangmanFunctionality = (store) => {
     }
     result += '<br />';
 
-    result += `<span>><span id="hangmanGuess"></span></span>`;
+    result += `<span>><span class="hangmanGuess"></span></span>`;
 
     store.commit("appendResults", result);
 
     setTimeout(() => {
-        let hmGuess = document.getElementById("hangmanGuess");
-        addFieldBehaviour(hmGuess, store);
+        let hmGuess = document.getElementsByClassName("hangmanGuess");
+        addFieldBehaviour(hmGuess[hmGuess.length - 1], store);
     }, 75)
 }
