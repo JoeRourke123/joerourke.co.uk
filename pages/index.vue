@@ -68,7 +68,17 @@
           this.$store.dispatch('handleCommand', e.target.innerText);
         } else if(e.which === 9) {    // Tab pressed
           e.preventDefault();
-          e.target.innerText = this.$store.getters.tabCompletion(e.target.innerText) ?? e.target.innerText;
+
+          let tabResults = this.$store.getters.tabCompletion(e.target.innerText);
+
+          if(tabResults != null) {
+            if(tabResults.length === 1) {
+              e.target.innerText = tabResults[0];
+            } else {
+              this.$store.dispatch('showTabResults', {command: e.target.innerText, results: tabResults});
+            }
+          }
+          
           let range = document.createRange();//Create a range (a range is a like the selection but invisible)
           range.selectNodeContents(e.target);//Select the entire contents of the element with the range
           range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start

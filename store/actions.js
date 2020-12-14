@@ -33,7 +33,7 @@ export default {
 
 
     handleCommand(store, command) {
-        store.commit("preCommand");
+        store.commit("preCommand", command);
 
         let runnable = splitCommand(command);
 
@@ -41,6 +41,16 @@ export default {
             store.dispatch(runnable[0], command);
         } else {
             store.commit("appendResults", `${runnable[0]}: command not found.`);
+        }
+
+        store.commit("postCommand", command);
+    },
+
+    showTabResults(store, {command, results}) {
+        store.commit("preCommand", command);
+
+        for(let res of results) {
+            store.commit("appendResults", res + "&nbsp;&nbsp;&nbsp;&nbsp;");
         }
 
         store.commit("postCommand", command);

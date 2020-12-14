@@ -9,9 +9,10 @@ export default {
             state.historyIndex--;
         }
     },
-    preCommand(state) {
+    preCommand(state, command) {
         state.readyForNextLine = false;
         state.hasBeenCleared = false;
+        state.history.unshift(command);
     },
     setHaltNextLine(state, halt) {
         state.haltNextLine = halt;
@@ -33,12 +34,13 @@ export default {
                 state.results.push(state.currentResult);
             }
 
-            state.history.unshift(command);
             state.currentResult = "";
             state.historyIndex = -1;
         } else if(!state.hasBeenCleared) {
             state.log[state.lines] = command;
         }
+
+        state.hasBeenCleared = false;
     },
     clearTerminal(state) {
         state.lines = 0;
