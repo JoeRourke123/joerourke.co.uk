@@ -19,22 +19,21 @@ export default () => ({
     haltNextLine: false,
 
     commands: ["help", "about", "uname -a", "email", "github", "linkedin", "lightmode", 
-    "clear", "resume", "now", "projects", "hangman", "form", "coffee", "affirm", "doggo", "haha"],
+    "clear", "resume", "now", "projects", "hangman", "coffee", "affirm", "doggo", "haha"],
     descriptions: [
         "to get back here!", "just a bit about me", "the tech behind this",
         "for enquiries and business talk", "checkout some of my projects",
         "go to my linkedin profile", "for burning your eyes",
         "clean up the screen", "my professional work",
         "what i've been working on recently", "some of my favourite personal/uni projects",
-        "the classic game", "to shoot me a quick message",
-        "any donations would be greatly appreciated!",
+        "the classic game", "any donations would be greatly appreciated!",
         "to brighten your day", "an adorable little suprise", "i'll tell you a joke!",
     ],
     groupings: {
-        "about me and my projects": [1, 8, 9, 10, 13],
+        "about me and my projects": [1, 8, 9, 10, 12],
         "nerdy stuff": [2, 6],
-        "get in touch": [3, 4, 5, 12],
-        "messin' around": [11, 13, 14, 15, 16]
+        "get in touch": [3, 4, 5],
+        "messin' around": [11, 12, 13, 14, 15]
     },
 
     info: {

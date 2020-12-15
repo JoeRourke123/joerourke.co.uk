@@ -65,11 +65,16 @@ export const mutations = {
     },
     addToGuesses(state, letter) {
         state.game.guessed.push(letter);
+    },
+    setCaretInterval(state, interval) {
+        state.game.currentCaretInterval = interval;
     }
 }
 
 export const actions = {
     guess(store, letter) {
+        store.commit("replaceLastLine", "> " + letter, { root: true });
+        
         let fullyGuessed = true;
         let result = "<br /><br />";
         let hasGuessed = store.state.game.guessed.includes(letter) || store.state.game.wrong.includes(letter);
@@ -127,18 +132,20 @@ export const actions = {
 }
 
 function addFieldBehaviour(el, store) {
+    store.commit("hangman/setCaretInterval", setInterval(() => {
+        el.parentNode.children[1].innerText = (el.parentNode.children[1].innerText === "▋") ? "" : "▋";
+    }, 550));
+
     el.contentEditable = true;
     el.onkeydown = (e) => {
         if(e.which === 13) {
             e.preventDefault();
             el.blur();
 
-            el.contentEditable = false;
-            el.classList.remove("hangmanGuess");
-
             let result = "";
 
             if (el.innerText.length <= 1) {
+                clearInterval(store.state.hangman.game.currentCaretInterval);
                 store.dispatch("hangman/guess", el.innerText);
 
                 if(store.state.readyForNextLine && !store.state.haltNextLine) {
@@ -148,7 +155,7 @@ function addFieldBehaviour(el, store) {
                 result += `<br />You must only enter one, letter please try again.<br />`;
             }
 
-            result += `<span>><span class="hangmanGuess"></span></span>`;
+            result += `<span>> <span class="hangmanGuess"></span><span></span></span>`;
 
             store.commit("appendResults", result);
 
@@ -169,6 +176,7 @@ export const hangmanFunctionality = (store) => {
         word: state.hangman.words[Math.floor(Math.random() * state.hangman.words.length)],
         round: 0,
         wrong: [],
+        currentCaretInterval: null,
     });
 
     store.commit("setHaltNextLine", true);
@@ -179,7 +187,7 @@ export const hangmanFunctionality = (store) => {
     }
     result += '<br />';
 
-    result += `<span>><span class="hangmanGuess"></span></span>`;
+    result += `<span>> <span class="hangmanGuess"></span><span></span></span>`;
 
     store.commit("appendResults", result);
 

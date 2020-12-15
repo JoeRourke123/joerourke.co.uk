@@ -13,6 +13,7 @@ export default {
         state.readyForNextLine = false;
         state.hasBeenCleared = false;
         state.history.unshift(command);
+        state.log[state.lines] = command;
     },
     setHaltNextLine(state, halt) {
         state.haltNextLine = halt;
@@ -23,21 +24,26 @@ export default {
     setResults(state, result) {
         state.currentResult = result;
     },
+    replaceLastLine(state, result) {
+        state.currentResult = state.currentResult.substring(0, state.currentResult.lastIndexOf("<br />")) + "<br />" + result;
+    },
     postCommand(state, command) {
         if (!state.haltNextLine) {
             state.readyForNextLine = true;
 
             if (!state.hasBeenCleared) {
-                state.log[state.lines++] = command;
                 state.log.push("");
+                state.lines++;
 
                 state.results.push(state.currentResult);
             }
 
             state.currentResult = "";
             state.historyIndex = -1;
-        } else if(!state.hasBeenCleared) {
-            state.log[state.lines] = command;
+        }
+
+        if(state.hangman.game?.currentCaretInterval != null) {
+            clearInterval(state.hangman.game.currentCaretInterval);
         }
 
         state.hasBeenCleared = false;
@@ -47,5 +53,5 @@ export default {
         state.log = [''];
         state.results = [];
         state.hasBeenCleared = true;
-    }
+    },
 }

@@ -16,7 +16,7 @@
             $
             <span v-if="lines === index && readyForNextLine">
               <span @keydown="commChanged" id="editor" contenteditable></span
-              ><span id="caret"></span>
+              ><span class="caret"></span>
             </span>
             <span v-else>
               {{ command }}
@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       caretInterval: null,
+      caretOn: false,
     };
   },
   computed: {
@@ -58,14 +59,19 @@ export default {
     },
   },
   mounted() {
-    this.caretInterval = setInterval(() => {
-      if (document.getElementById("caret") != null) {
-        if (document.getElementById("caret").innerText === "▋") {
-          document.getElementById("caret").innerText = "";
-        } else {
-          document.getElementById("caret").innerText = "▋";
-        }
+    document.addEventListener("keydown", (e) => {
+      if(e.keyCode === 67 && e.ctrlKey && this.$store.state.history.length > 0) {
+        this.$store.commit("setHaltNextLine", false);
+        this.$store.commit("postCommand", this.$store.state.history[0]);
       }
+    })
+
+    this.caretInterval = setInterval(() => {
+      let carets = document.getElementsByClassName("caret");
+      for(let caret of carets) {
+        caret.innerText = (this.caretOn) ? "▋" : "";
+      }
+      this.caretOn = !this.caretOn;
     }, 550);
 
     setInterval(() => {
@@ -77,6 +83,7 @@ export default {
   },
   methods: {
     async commChanged(e) {
+      console.log(e);
       if (e.which === 13) {
         // Enter pressed
         e.preventDefault();

@@ -2,7 +2,7 @@ import { hangmanFunctionality } from '../store/hangman';
 
 export default {
     email (store, command) {
-        store.commit("appendResults", `Your wish is my command... you can get in touch me with on:<br /><a href='mailto://${state.info.email}'>${this.state.info.email}</a>`);
+        store.commit("appendResults", `Your wish is my command... you can get in touch me with at <a target="_blank" href='mailto://${store.state.info.email}'>${store.state.info.email}</a><br /><br />`);
     },
     github (store, command) {
         window.open(store.state.info.github, "_blank");
@@ -94,7 +94,7 @@ export default {
             }
         });
 
-        store.commit("setResults", joke + "<br />");
+        store.commit("setResults", joke + "<br /><br />");
     },
     async affirm(store, command) {
         store.commit("appendResults", "Loading...");
@@ -103,7 +103,7 @@ export default {
                 "Accept": "application/json"
             }
         });
-        store.commit("setResults", affirmation['affirmation'] + "<br />");
+        store.commit("setResults", affirmation['affirmation'] + "<br /><br />");
     },
     async doggo(store, command) {
         store.commit("appendResults", "Loading... cuteness pending...");
@@ -112,5 +112,5 @@ export default {
     },
     lauren(store) {
         store.commit("appendResults", "I love you so so much baby :p<br /><br />");
-    }
+    },
 };
