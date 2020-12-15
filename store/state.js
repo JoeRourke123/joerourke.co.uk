@@ -58,10 +58,11 @@ export default () => ({
             `,
             bio: `
             <div class="textBlock">
-                Hi, I am a Full Stack Engineer particularly interested in 
+                Hi, I am a student and full stack developer particularly interested in 
                 machine learning. Currently, I am studying AI at Royal Holloway, University of London.
-                I am also interested in politics and the environment, and how technology can be used to
-                fight in these causes (check out my blog for more on this!). <br />
+                I'm also interested in politics and the environment, and how technology can be used to
+                fight in these causes (I'm hoping to start a blog on this soon!). I'm always on the lookout for 
+                new projects and opportunities so feel free to shoot me an email!<br />
                 I'm always on the lookout for the latest opportunities and technologies, so please do get in touch!<br />
             </div>`,
         },
