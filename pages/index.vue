@@ -2,10 +2,10 @@
   <div class="terminal is-dark" id="terminal">
     <div class="flex-container" id="flex-container">
       <div class="log-list" id="log-list">
-        <div class="command">
+        <div class="command" v-if="!$store.state.history.includes('clear')">
           <span class="line">
-            This is a work in progress. Feel free to try it out though. Run
-            'help' if you need any :)
+            Welcome to Joe's portfolio shell.<br />
+            For more information and assistance, run 'help'.<br /><br />
           </span>
         </div>
         <div class="command" :key="index" v-for="(command, index) in log">
@@ -118,6 +118,8 @@ export default {
         e.preventDefault();
         this.$store.commit("historyDown");
         e.target.innerText = this.$store.getters.currentHistory() ?? "";
+      } else if(e.which === 37 || e.which === 39) {
+        e.preventDefault();
       }
     },
     focusInput() {
