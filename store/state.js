@@ -63,7 +63,6 @@ export default () => ({
                 I'm also interested in politics and the environment, and how technology can be used to
                 fight in these causes (I'm hoping to start a blog on this soon!). I'm always on the lookout for 
                 new projects and opportunities so feel free to shoot me an email!<br />
-                I'm always on the lookout for the latest opportunities and technologies, so please do get in touch!<br />
             </div>`,
         },
         resume: {
