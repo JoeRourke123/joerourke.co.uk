@@ -19,7 +19,7 @@ export default () => ({
     haltNextLine: false,
 
     commands: ["help", "about", "uname -a", "email", "github", "linkedin", "lightmode", 
-    "clear", "resume", "now", "projects", "hangman", "coffee", "affirm", "doggo", "haha"],
+    "clear", "resume", "now", "projects", "hangman", "coffee", "doggo", "haha"],
     descriptions: [
         "to get back here!", "just a bit about me", "the tech behind this",
         "for enquiries and business talk", "checkout some of my projects",
@@ -27,13 +27,13 @@ export default () => ({
         "clean up the screen", "my professional work",
         "what i've been working on recently", "some of my favourite personal/uni projects",
         "the classic game", "any donations would be greatly appreciated!",
-        "to brighten your day", "an adorable little suprise", "i'll tell you a joke!",
+        "an adorable little suprise", "i'll tell you a joke!",
     ],
     groupings: {
         "about me and my projects": [1, 8, 9, 10, 12],
         "nerdy stuff": [2, 6],
         "get in touch": [3, 4, 5],
-        "messin' around": [11, 12, 13, 14, 15]
+        "messin' around": [11, 12, 13, 14]
     },
 
     info: {
@@ -123,7 +123,8 @@ export default () => ({
         now: [
             "I'm always doing work on this site, and my blog where I write about technology, politics, and the environment!",
             "Rebuilding my A Level coursework, a news aggregator and summariser, as a progressive web app using Vue.JS and Django.",
-            "A powerful cross platform mobile browser with integrated DevTools, to finally allow for proper mobile debugging"
+            "I'm learning Prolog for a uni module so I'm going to build an evolving adventure game, making the most of Prolog's rich features."
+            // "A powerful cross platform mobile browser with integrated DevTools, to finally allow for proper mobile debugging"
         ],
         projects: {
             "Shortr": "my A-Level coursework project - uses NLP and a bespoke pattern matching algorithm in order to summarise" +
