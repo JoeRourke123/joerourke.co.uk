@@ -26,6 +26,7 @@
             <span v-html="results[index]" v-if="index < lines"></span>
             <span v-html="currentResult" v-else></span>
           </div>
+          <br />
         </div>
       </div>
     </div>
@@ -87,7 +88,7 @@ export default {
       if (e.which === 13) {
         // Enter pressed
         e.preventDefault();
-        await this.$store.dispatch("handleCommand", e.target.innerText);
+        await this.$store.dispatch("handleCommand", e.target.innerText.toLowerCase());
       } else if (e.which === 9) {
         // Tab pressed
         e.preventDefault();

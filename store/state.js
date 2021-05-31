@@ -18,8 +18,8 @@ export default () => ({
     readyForNextLine: true,
     haltNextLine: false,
 
-    commands: ["help", "about", "uname -a", "email", "github", "linkedin", "lightmode", 
-    "clear", "resume", "now", "projects", "hangman", "coffee", "doggo", "haha"],
+    commands: ["help", "about", "uname -a", "email", "github", "linkedin", "lightmode",
+    "clear", "resume", "now", "projects", "hangman", "coffee", "doggo", "haha", "sl"],
     descriptions: [
         "to get back here!", "just a bit about me", "the tech behind this",
         "for enquiries and business talk", "checkout some of my projects",
@@ -27,13 +27,13 @@ export default () => ({
         "clean up the screen", "my professional work",
         "what i've been working on recently", "some of my favourite personal/uni projects",
         "the classic game", "any donations would be greatly appreciated!",
-        "an adorable little suprise", "i'll tell you a joke!",
+        "an adorable little suprise", "i'll tell you a joke!", "choo choo!",
     ],
     groupings: {
         "about me and my projects": [1, 8, 9, 10, 12],
         "nerdy stuff": [2, 6],
         "get in touch": [3, 4, 5],
-        "messin' around": [11, 12, 13, 14]
+        "messin' around": [11, 13, 14, 15]
     },
 
     info: {
@@ -120,25 +120,26 @@ export default () => ({
             ],
         },
         now: [
-            "I'm always doing work on this site, and my blog where I write about technology, politics, and the environment!",
-            "Rebuilding my A Level coursework, a news aggregator and summariser, as a progressive web app using Vue.JS and Django.",
-            "I'm learning Prolog for a uni module so I'm going to build an evolving adventure game, making the most of Prolog's rich features."
-            // "A powerful cross platform mobile browser with integrated DevTools, to finally allow for proper mobile debugging"
+            "I've recently built a flashcard app based on Notion using Kotlin, React, GraphQL, and Redis! Check it out at https://flotion.space",
+            "My next project is an app to tackle the awkward act of asking colleagues if they want a cup of tea!",
+            "I also plan on building some command line tools using Go - to make management of my VPS easier!",
         ],
         projects: {
             "Shortr": "my A-Level coursework project - uses NLP and a bespoke pattern matching algorithm in order to summarise" +
               " and aggregate news articles which interest the user. Built using Flask and JavaScript - the project achieved a mark of " +
-              "67 out of 70. I am currently rebuilding it using Django and Vue.JS",
-            "forkie": "A first-year university coursework project, where we were given the requirements of a file repository system and required to implement it." +
-              " This was for an advanced programming module I was selected for. " +
-              "This project was built in a small team where I had to guide and teach most of the members how to use the Flask Python library. It achieved an A grade.",
-            "metamap": "A geolocation based social network built for Royal Hackaway - the biggest hackathon in Surrey. The app was developed" +
-              "using Flutter and the backend with Flask and MongoDB",
-            "pastey/paster": "A winning hackathon project built for the purpose of allowing students to easily transfer files between their " +
+              "67 out of 70.",
+            "flotion": "Using the Notion API and some extra backend processing - with Kotlin and Redis. I built a" +
+              " web app, using React, where you can test yourselves on flashcards made using Notion. Try it at <a href='https://flotion.space' target='_blank'>https://flotion.space</a>. I built the web app initially to help me study for my exams - and it worked great!",
+            "ecothon": "A geolocation based environmental competition app which pit you against your community to be the most environmentally friendly. Built for Royal Hackaway 2021, where we won a prize! Technologies included Flutter, Go, and MongoDB.",
+            "Pastey": "A winning hackathon project built for the purpose of allowing students to easily transfer files between their " +
               "their computer and the department's linux server. The frontend and UI were built with Java and the backend in Python running on GCP.",
-            "joerourke.co.uk": "This site - I'm always working on updating it and improving it and making it more and more like a real terminal",
+          "Oaxaca": "A restaurant ordering system, for a fictional establishment, built for a university team project " +
+            "over 5 SCRUM sprints. Developed using Django and Vue.JS with a Postgres database. I was mostly responsible" +
+            " for the Vue.JS interface, database design, and for being the SCRUM master and guide to the technologies for the rest of the team. " +
+            "Try it out at <a href='https://oaxaca.tk/' target='_blank'>https://oaxaca.tk</a>",
         },
-        sl: `
+    },
+  sl: `
 <pre>
       o x o x o x o . . .
     o      _____            _______________ ___=====__T___
@@ -146,5 +147,4 @@ export default () => ({
 >(________|__|_[_________]_|____|_/\_|___|_|___________|_|
 _/oo OOOOO oo\`  ooo   ooo   o^o       o^o   o^o     o^o        
 </pre>`
-    }
 });

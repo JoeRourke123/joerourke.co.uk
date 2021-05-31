@@ -2,7 +2,7 @@ import { hangmanFunctionality } from '../store/hangman';
 
 export default {
     email (store, command) {
-        store.commit("appendResults", `Your wish is my command... you can get in touch me with at <a target="_blank" href='mailto://${store.state.info.email}'>${store.state.info.email}</a><br /><br />`);
+        store.commit("appendResults", `Your wish is my command... you can get in touch me with at <a target="_blank" href='mailto://${store.state.info.email}'>${store.state.info.email}</a><br />`);
     },
     github (store, command) {
         window.open(store.state.info.github, "_blank");
@@ -40,7 +40,7 @@ export default {
             result += `<br /><div class="wideTextBlock">${state.info.resume.descriptions[i]}</div>`;
             result += "<span>------------------------------------------------</span><br />"
         }
-        
+
         store.commit("appendResults", result);
     },
     about (store, command) {
@@ -104,4 +104,27 @@ export default {
     lauren(store) {
         store.commit("appendResults", "I love you so so much baby :p<br /><br />");
     },
+    async sl(store, command) {
+      let stepAmount = window.innerWidth / 15;
+      let count = 0;
+
+      store.commit("setHaltNextLine", true);
+
+      const interval = setInterval(() => {
+        store.commit("setResults", `
+          <br /><div style="position: relative;">
+          <div style="position: absolute; right: ${ stepAmount * count++ }px;">
+            ${ store.state.sl }
+          </div>
+          </div>
+        `);
+
+        if(count === 16) {
+          clearInterval(interval);
+          store.commit("setHaltNextLine", false);
+          store.commit("postCommand", null);
+        }
+      }, 1000);
+
+    }
 };
