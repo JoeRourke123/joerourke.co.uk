@@ -93,7 +93,7 @@ export default {
         // Tab pressed
         e.preventDefault();
 
-        let tabResults = this.$store.getters.tabCompletion(e.target.innerText);
+        let tabResults = this.$store.getters.tabCompletion(e.target.innerText.toLowerCase());
 
         if (tabResults != null) {
           if (tabResults.length === 1) {
@@ -106,7 +106,7 @@ export default {
             selection.addRange(range); //make the range you have just created the visible selection
           } else {
             this.$store.dispatch("showTabResults", {
-              command: e.target.innerText,
+              command: e.target.innerText.toLowerCase(),
               results: tabResults,
             });
           }
