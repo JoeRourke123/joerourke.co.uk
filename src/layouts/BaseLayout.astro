@@ -1,0 +1,99 @@
+---
+import '@fontsource/big-shoulders-display/400';
+import '@fontsource/big-shoulders-display/700';
+import '@fontsource/big-shoulders-display/900';
+import '@fontsource/newsreader/400';
+import '@fontsource/newsreader/400-italic';
+import '@fontsource/newsreader/500';
+import '@fontsource/newsreader/700';
+import '@fontsource/courier-prime/400';
+import '@fontsource/courier-prime/400-italic';
+import '@fontsource/courier-prime/700';
+import display900 from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-900-normal.woff2';
+import newsreader400 from '@fontsource/newsreader/files/newsreader-latin-400-normal.woff2';
+import '../styles/global.css';
+
+import Nav from '../components/Nav.astro';
+import Grain from '../components/Grain.astro';
+import CropMarks from '../components/CropMarks.astro';
+import Barcode from '../components/Barcode.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'A risograph zine about code, cities and other fixations — by Joe Rourke.' } =
+  Astro.props;
+const pageTitle = title === 'Home' ? 'Joe Rourke — a two-ink zine' : `${title} — Joe Rourke`;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <!-- printed by hand in two inks — joerourke.co.uk, issue no. 001 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{pageTitle}</title>
+    <link rel="preload" href={display900} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={newsreader400} as="font" type="font/woff2" crossorigin />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F4F1EA'/%3E%3Crect x='5' y='5' width='22' height='22' fill='%23FF6C2F' stroke='%231B1B1B' stroke-width='3'/%3E%3C/svg%3E"
+    />
+    <link rel="alternate" type="application/rss+xml" title="Joe Rourke — Writing" href="/rss.xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <CropMarks />
+    <Grain />
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="inner">
+        <div>
+          <p class="mono">Joe Rourke — Issue No. 001</p>
+          <p class="note">
+            Set in Big Shoulders Display, Newsreader &amp; Courier Prime. Printed in two inks on cream
+            stock. No trackers, no cookies, no analytics.
+          </p>
+        </div>
+        <div>
+          <p class="mono">
+            <a href="/rss.xml">RSS</a> /// <a href="/colophon/">Colophon</a> ///
+            <a href="https://github.com/JoeRourke123/joerourke.co.uk">Source</a>
+          </p>
+          <Barcode seed="JOEROURKE-001" />
+        </div>
+      </div>
+    </footer>
+    <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
+    <script>
+      console.log(
+        '%cJOE ROURKE — ISSUE NO. 001%cset by hand in two inks. view-source is the zine.',
+        'background:#FF6C2F;color:#1B1B1B;font-weight:bold;padding:4px 8px;',
+        'color:#0078BF;',
+      );
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const els = document.querySelectorAll('.reveal');
+      if (!mq.matches && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.12 },
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('in'));
+      }
+    </script>
+  </body>
+</html>

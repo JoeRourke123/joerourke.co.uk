@@ -1,0 +1,25 @@
+---
+interface Props {
+  seed?: string;
+}
+const { seed = 'JOEROURKE-001' } = Astro.props;
+
+// Deterministic pseudo-barcode from the seed (DESIGN.md §9: SVG, not gradients).
+const bars: number[] = [];
+let x = 0;
+for (let i = 0; i < seed.length; i++) {
+  const w = 1 + ((seed.charCodeAt(i) * (i + 2)) % 4);
+  bars.push(x, w);
+  x += w + 1 + ((seed.charCodeAt(i) + i) % 3);
+}
+const width = x + 2;
+---
+
+<svg class="barcode" width={width} height="44" viewBox={`0 0 ${width} 44`} role="img" aria-label="Barcode">
+  {
+    bars.map((v, i) =>
+      i % 2 === 0 ? <rect x={v} y="0" width={bars[i + 1]} height="36" fill="var(--ink)" /> : null,
+    )
+  }
+  <text x="2" y="43" font-family="Courier Prime, monospace" font-size="6" fill="var(--ink)">{seed}</text>
+</svg>

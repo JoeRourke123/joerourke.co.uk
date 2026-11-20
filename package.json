@@ -1,22 +1,22 @@
 {
-  "name": "portfolio.sh",
-  "version": "1.0.0",
+  "name": "joerourke-co-uk",
+  "type": "module",
   "private": true,
+  "version": "0.1.0",
+  "description": "joerourke.co.uk — a risograph-zine personal site (Astro, static, GitHub Pages)",
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.12.0",
-    "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "fs": "0.0.1-security",
-    "node": "latest",
-    "nuxt": "^2.14.0",
-    "nuxt-buefy": "^0.3.31",
-    "vue": "^2.6.12",
-    "vue-template-compiler": "^2.6.12"
+    "@astrojs/rss": "^4.0.19",
+    "@fontsource/big-shoulders-display": "^5.3.0",
+    "@fontsource/courier-prime": "^5.3.0",
+    "@fontsource/newsreader": "^5.3.0",
+    "astro": "^7.4.13"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "typescript": "^5.9.0"
+  }
 }

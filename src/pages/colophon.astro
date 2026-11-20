@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Colophon" description="How this site is made: type, inks, stack, privacy.">
+  <div class="container">
+    <header class="page-head">
+      <p class="mono">How it's made</p>
+      <h1 class="misreg" data-text="Colophon">Colophon</h1>
+    </header>
+    <div class="prose">
+      <h2>Type</h2>
+      <p>
+        <strong>Big Shoulders Display</strong> for shouty headlines, <strong>Newsreader</strong> for
+        prose, <strong>Courier Prime</strong> for labels and code. All SIL Open Font License, all
+        self-hosted woff2 — no font CDN.
+      </p>
+
+      <h2>Inks</h2>
+      <p>
+        Cream stock <code>#F4F1EA</code>, ink <code>#1B1B1B</code>, riso orange
+        <code>#FF6C2F</code>, riso blue <code>#0078BF</code>. Two inks overprint with
+        <code>mix-blend-mode: multiply</code>; headlines carry a deliberate 3px misregistration. Grain
+        is an SVG turbulence overlay. That's the whole trick.
+      </p>
+
+      <h2>Stack</h2>
+      <p>
+        Astro, static output, zero client frameworks — one tiny inline script for scroll reveals.
+        Markdown posts live in <code>src/content/writing/</code> as a content collection. RSS is
+        generated at build time. Source is on
+        <a href="https://github.com/JoeRourke123/joerourke.co.uk">GitHub</a>.
+      </p>
+
+      <h2>Privacy</h2>
+      <p>
+        No trackers, no analytics, no cookies, no fingerprinting, no newsletter popups. You're not
+        the product; there's no dashboard watching you read.
+      </p>
+
+      <h2>Hosting</h2>
+      <p>
+        GitHub Pages, built by GitHub Actions on every push. The design rules this site follows live
+        in <code>DESIGN.md</code> at the repo root — read it before touching the CSS.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

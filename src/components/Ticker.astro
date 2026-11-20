@@ -1,0 +1,23 @@
+---
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+---
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    {
+      [0, 1].map((dup) => (
+        <div class="ticker-group">
+          {items.map((item) => (
+            <span class="ticker-item">
+              {item}
+              <span class="sep">///</span>
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>
