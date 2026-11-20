@@ -24,8 +24,8 @@ simulators, mods, e-paper gadgets — plus whatever I'm thinking about that
 week. Short, opinionated, first person. No listicles, no "10 tips", no
 "in today's fast-paced world".
 
-New posts land here, newest first, and there's an [RSS feed](/rss.xml) for
-the old-school among you.
+New posts land here, newest first, and there's an [RSS feed](../../rss.xml)
+for the old-school among you.
 
 The whole thing is one static build. View source if you want to see how the
 ink dries:

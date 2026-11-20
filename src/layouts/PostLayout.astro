@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import { render } from 'astro:content';
 import type { Post } from '../utils/posts';
 import { readingTime, wordCount, formatDate } from '../utils/posts';
+import { u } from '../utils/url';
 
 interface Props {
   post: Post;
@@ -18,7 +19,7 @@ const { Content } = await render(post);
         <span>{formatDate(post.data.date)}</span>
         <span>{readingTime(post.body ?? '')} min read</span>
         <span>{wordCount(post.body ?? '')} words</span>
-        {post.data.tags.map((t) => <a class="tag-chip" href={`/writing/tag/${t}/`}>{t}</a>)}
+        {post.data.tags.map((t) => <a class="tag-chip" href={u(`/writing/tag/${t}/`)}>{t}</a>)}
       </div>
       <h1 class="misreg" data-text={post.data.title}>{post.data.title}</h1>
       <p class="lede">{post.data.description}</p>
@@ -27,7 +28,7 @@ const { Content } = await render(post);
       <Content />
     </div>
     <footer class="post-foot">
-      <a href="/writing/">← All writing</a>
+      <a href={u('/writing/')}>← All writing</a>
       <span class="mono">Filed under {post.data.tags.join(', ') || 'miscellaneous'}</span>
     </footer>
   </article>

@@ -1,4 +1,6 @@
 ---
+import { u } from '../utils/url';
+
 const links = [
   { href: '/writing/', label: 'Writing' },
   { href: '/about/', label: 'About' },
@@ -10,13 +12,13 @@ const current = Astro.url.pathname;
 
 <header class="site-header">
   <div class="bar">
-    <a class="brand" href="/" aria-label="Joe Rourke — home">
+    <a class="brand" href={u('/')} aria-label="Joe Rourke — home">
       JOE ROURKE<span class="cursor" aria-hidden="true"></span>
     </a>
     <nav class="site-nav" aria-label="Main">
       {
         links.map((l) => (
-          <a href={l.href} aria-current={current === l.href ? 'page' : undefined}>
+          <a href={u(l.href)} aria-current={current === u(l.href) ? 'page' : undefined}>
             {l.label}
           </a>
         ))

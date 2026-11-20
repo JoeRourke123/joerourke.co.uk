@@ -209,9 +209,16 @@ and the JS skips the observer (elements render visible).
   `actions/upload-pages-artifact` and deploys with `actions/deploy-pages`
   (source: GitHub Actions). **Enabling Pages on the repo and any custom
   domain (joerourke.co.uk) is the owner's manual step** — the workflow file
-  ships ready. `site`/`base` in `astro.config.mjs` default to
-  `https://joerourke.co.uk` + `/`; change `base` if serving under a project
-  path instead.
+  ships ready.
+- `site`/`base` in `astro.config.mjs` default to the Pages **project path**:
+  `https://joerourke123.github.io/joerourke.co.uk` + `/joerourke.co.uk`.
+  For the custom domain joerourke.co.uk instead, set `base: '/'` and
+  `site: 'https://joerourke.co.uk'`.
+- **All internal links must go through `u()` (`src/utils/url.ts`, built on
+  `import.meta.env.BASE_URL`). Never hardcode absolute paths** — a hardcoded
+  `/` prefix breaks every asset/link under a project path (this exact bug
+  shipped once: unstyled page on github.io). RSS item links must be built
+  with `new URL(path, site)`.
 
 ## 16. File conventions
 

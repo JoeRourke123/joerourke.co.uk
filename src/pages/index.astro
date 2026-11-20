@@ -5,6 +5,7 @@ import StampBadge from '../components/StampBadge.astro';
 import Sticker from '../components/Sticker.astro';
 import Ticker from '../components/Ticker.astro';
 import Doodles from '../components/Doodles.astro';
+import { u } from '../utils/url';
 
 const rows = [
   { href: '/writing/', label: 'Writing', hint: 'essays, notes, rants' },
@@ -31,7 +32,7 @@ const rows = [
     <nav class="cover-nav" aria-label="Sections">
       {
         rows.map((r) => (
-          <a class="row" href={r.href}>
+          <a class="row" href={u(r.href)}>
             <span class="label">{r.label}</span>
             <span class="hint">{r.hint}</span>
             <Doodles kind="arrow" width={56} />

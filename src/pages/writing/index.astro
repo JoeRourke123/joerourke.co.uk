@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import { getPosts, allTags } from '../../utils/posts';
+import { u } from '../../utils/url';
 
 const posts = await getPosts();
 const tags = allTags(posts);
@@ -16,7 +17,7 @@ const tags = allTags(posts);
         tags.length > 0 && (
           <div class="tag-row">
             {tags.map((t) => (
-              <a class="tag-chip" href={`/writing/tag/${t}/`}>
+              <a class="tag-chip" href={u(`/writing/tag/${t}/`)}>
                 {t}
               </a>
             ))}
