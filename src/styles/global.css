@@ -98,8 +98,7 @@ p {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .container {
@@ -230,8 +229,7 @@ p {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   text-decoration: none;
   padding: 0.25rem 0.5rem;
 }
@@ -276,8 +274,7 @@ p {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   transform: rotate(-6deg);
   animation: slam 0.5s steps(6) both;
 }
@@ -302,8 +299,7 @@ p {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   transform: rotate(var(--tilt, -3deg));
 }
 .sticker::before {
@@ -342,8 +338,7 @@ p {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   padding: 0.5rem 0;
 }
@@ -402,8 +397,7 @@ p {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 .cover-nav .row .arrow {
   flex: none;
@@ -451,8 +445,7 @@ p {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   margin-bottom: 0.6rem;
 }
 .post-card h2 {
@@ -470,8 +463,7 @@ p {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   text-decoration: none;
   margin-right: 0.4rem;
   background: var(--paper);
@@ -500,8 +492,7 @@ p {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   margin-bottom: 1rem;
 }
 .post-head h1 {
@@ -594,8 +585,7 @@ p {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--ink);
   background: var(--paper);
   border-top: var(--border-thin);
@@ -649,8 +639,7 @@ p {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   background: var(--orange);
   border: var(--border-thin);
   padding: 0.1rem 0.45rem;

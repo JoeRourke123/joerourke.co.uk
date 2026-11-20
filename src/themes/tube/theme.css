@@ -1,0 +1,154 @@
+/* Scoped to the tube theme (DESIGN.md §18). Local palette mimics TfL artifacts. */
+.theme-tube {
+  --tfl-red: #dc241f;
+  --tfl-blue: #0019a8;
+  --tfl-lblue: #0098d4;
+  --tfl-brown: #b36305;
+  --led-amber: #ffb000;
+  --led-bg: #0d0d0d;
+}
+
+/* ---- schematic tube map ---- */
+.theme-tube .tubemap {
+  border: var(--border);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin: 2rem 0;
+}
+.theme-tube .tubemap svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.theme-tube .tline {
+  transition: opacity 0.15s steps(2);
+  cursor: pointer;
+  outline: none;
+}
+.theme-tube .tubemap:hover .tline,
+.theme-tube .tubemap:focus-within .tline {
+  opacity: 0.15;
+}
+.theme-tube .tline:hover,
+.theme-tube .tline:focus {
+  opacity: 1;
+}
+.theme-tube .tube-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--ink);
+}
+.theme-tube .tubemap-caption {
+  margin: 0.6rem 0 0;
+}
+
+/* ---- platform departure board (LED) ---- */
+.theme-tube .pboard {
+  background: var(--led-bg);
+  color: var(--led-amber);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.25rem 0.75rem;
+  margin: 2rem 0;
+  font-family: var(--font-mono);
+  text-shadow: 0 0 6px rgba(255, 176, 0, 0.45);
+}
+.theme-tube .pboard-head {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-bottom: 2px solid var(--led-amber);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.theme-tube .pboard-colon {
+  animation: blink 1s steps(1) infinite;
+}
+.theme-tube .pboard-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.theme-tube .pboard-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.2rem 0.4rem;
+}
+.theme-tube .pboard-row.now {
+  background: rgba(255, 176, 0, 0.14);
+  outline: 2px solid var(--led-amber);
+}
+.theme-tube .pboard-foot {
+  color: var(--led-amber);
+  opacity: 0.75;
+  font-size: 0.75rem;
+  margin: 0.5rem 0 0;
+  text-shadow: none;
+}
+
+/* ---- scroll-driven train ride ---- */
+.theme-tube .trainride {
+  margin: 2rem 0;
+}
+.theme-tube .trainride .scene {
+  position: relative;
+  height: 130px;
+  border: var(--border);
+  background: var(--paper-dark);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.theme-tube .track-svg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+}
+.theme-tube .train {
+  position: absolute;
+  left: 8px;
+  bottom: 14px;
+  will-change: transform;
+}
+.theme-tube .trainride-caption {
+  margin: 0.6rem 0 0;
+}
+.theme-tube .station-name {
+  color: var(--tfl-red);
+}
+
+/* ---- poster ad ---- */
+.theme-tube .tubead {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 560px;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--paper);
+  border: var(--border);
+  box-shadow: var(--shadow-lg);
+  transform: rotate(-1.2deg);
+}
+.theme-tube .tubead-big {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 0.9;
+  margin: 0 0 0.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-tube .map-dot,
+  .theme-tube .pboard-colon {
+    display: none;
+    animation: none;
+  }
+}

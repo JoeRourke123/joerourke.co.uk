@@ -5,15 +5,27 @@ import type { Post } from '../utils/posts';
 import { readingTime, wordCount, formatDate } from '../utils/posts';
 import { u } from '../utils/url';
 
+// DESIGN.md §18: themes are auto-discovered; unknown theme = build error.
+const themeModules = import.meta.glob('../themes/*/Theme.astro', { eager: true }) as Record<
+  string,
+  { default: (_props: { children?: unknown }) => unknown }
+>;
+
 interface Props {
   post: Post;
 }
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const themeKey = post.data.theme ? `../themes/${post.data.theme}/Theme.astro` : undefined;
+const Theme = themeKey ? themeModules[themeKey]?.default : undefined;
+if (post.data.theme && !Theme) {
+  throw new Error(`Unknown post theme "${post.data.theme}" — expected src/themes/${post.data.theme}/Theme.astro`);
+}
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="container">
+  <article class="container" data-theme={post.data.theme}>
     <header class="post-head">
       <div class="meta">
         <span>{formatDate(post.data.date)}</span>
@@ -25,7 +37,7 @@ const { Content } = await render(post);
       <p class="lede">{post.data.description}</p>
     </header>
     <div class="post-body">
-      <Content />
+      {Theme ? <Theme><Content /></Theme> : <Content />}
     </div>
     <footer class="post-foot">
       <a href={u('/writing/')}>← All writing</a>

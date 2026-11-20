@@ -26,7 +26,5 @@ export function allTags(posts: Post[]): string[] {
 }
 
 export function formatDate(d: Date): string {
-  return d
-    .toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
-    .toUpperCase();
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 }
