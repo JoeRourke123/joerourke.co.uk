@@ -1,0 +1,134 @@
+/* DESIGN.md §19 — the print shop at night. CSS scroll timelines, with fallbacks. */
+
+.inkbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 300;
+  pointer-events: none;
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  .inkbar {
+    display: block;
+    animation: inkfill linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes inkfill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.roller {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 12px;
+  background: var(--ink);
+  border-bottom: 3px solid var(--orange);
+  z-index: 250;
+  pointer-events: none;
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  .roller {
+    display: block;
+    animation: roll linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes roll {
+  from {
+    transform: translateY(-18px);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+.shopfront {
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: var(--border);
+  margin: 0 calc(50% - 50vw);
+  padding: 3.5rem 0;
+}
+.shopfront .cover-headline {
+  color: var(--paper);
+}
+.shopfront .misreg::before {
+  mix-blend-mode: normal;
+  color: var(--blue);
+}
+.shopfront .cover-sub {
+  color: var(--paper);
+}
+.shopfront .masthead .scrap {
+  border-color: var(--paper);
+  box-shadow: 4px 4px 0 var(--blue);
+}
+.shopfront a {
+  color: var(--paper);
+}
+.copyno {
+  color: var(--paper);
+  margin: 1.25rem 0 0;
+}
+
+.masthead .scrap {
+  animation: slam-in 0.45s steps(6) both;
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+@keyframes slam-in {
+  from {
+    opacity: 0;
+    transform: rotate(-16deg) scale(2.2) translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(var(--rot, 0deg)) translateY(var(--dy, 0px)) scale(var(--scale, 1));
+  }
+}
+
+.stampstrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  margin-top: 0.9rem;
+}
+.stampstrip .st {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--paper);
+  display: inline-block;
+}
+.stampstrip .st.seen {
+  background: var(--orange);
+  border-color: var(--orange);
+}
+.stampstrip .count {
+  margin-left: 0.6rem;
+}
+
+.continue {
+  margin: 0 0 1.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inkbar,
+  .roller {
+    display: none !important;
+  }
+  .masthead .scrap {
+    animation: none;
+  }
+}

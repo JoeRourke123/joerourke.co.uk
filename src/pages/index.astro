@@ -15,20 +15,25 @@ const rows = [
 ---
 
 <BaseLayout title="Home">
-  <div class="container cover">
-    <Masthead text="JOE ROURKE" />
-    <div class="cover-badges">
-      <StampBadge lines={['Issue no. 001', 'Est. 2026']} />
-      <Sticker tilt={2.5} bg="var(--orange)">100% hand-set</Sticker>
-      <Sticker tilt={-2}>No trackers</Sticker>
+  <div class="shopfront">
+    <div class="container">
+      <Masthead text="JOE ROURKE" />
+      <div class="cover-badges">
+        <StampBadge lines={['Issue no. 001', 'Est. 2026']} />
+        <Sticker tilt={2.5} bg="var(--orange)">100% hand-set</Sticker>
+        <Sticker tilt={-2}>No trackers</Sticker>
+      </div>
+      <p class="copyno mono">this browser has pulled <span id="copyno">copy no. 1</span></p>
+      <h2 class="cover-headline misreg" data-text="The web, but photocopied.">
+        The web, but photocopied.
+      </h2>
+      <p class="cover-sub">
+        A zine about code, cities and other fixations — printed in two inks on cream stock.
+        <Doodles kind="scribble" width={120} />
+      </p>
     </div>
-    <h2 class="cover-headline misreg" data-text="The web, but photocopied.">
-      The web, but photocopied.
-    </h2>
-    <p class="cover-sub">
-      A zine about code, cities and other fixations — printed in two inks on cream stock.
-      <Doodles kind="scribble" width={120} />
-    </p>
+  </div>
+  <div class="container cover">
     <nav class="cover-nav" aria-label="Sections">
       {
         rows.map((r) => (
@@ -49,6 +54,7 @@ const rows = [
       'rss at /rss.xml',
       'writing at /writing/',
       'made with paper, ink + Astro',
+      'open late',
     ]}
   />
 </BaseLayout>

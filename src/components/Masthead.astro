@@ -21,11 +21,11 @@ const scraps = [...text].map((ch, i) => {
 
 <h1 class="masthead" aria-label={text}>
   {
-    scraps.map((s) => (
+    scraps.map((s, i) => (
       <span
         class="scrap"
         aria-hidden="true"
-        style={`--rot:${s.rot}deg;--dy:${s.dy}px;--scale:${s.scale};--w:${s.w};background:${s.bg};color:${s.color}`}
+        style={`--i:${i};--rot:${s.rot}deg;--dy:${s.dy}px;--scale:${s.scale};--w:${s.w};background:${s.bg};color:${s.color}`}
       >
         {s.ch === ' ' ? '\u00A0' : s.ch}
       </span>
