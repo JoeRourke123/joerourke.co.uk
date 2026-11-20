@@ -36,7 +36,10 @@ Any of these in a PR = reject the PR:
     stock photos, "trusted by" bars, pill badges on everything.
 11. Dark-mode-by-default or neon-on-dark. The site is paper. One inverted
     (ink-background) band is allowed per page for contrast.
-12. Trackers, analytics, cookies, cookie banners.
+12. Trackers, analytics, cookies, cookie banners. Exception: first-party
+    `localStorage` is allowed ONLY for on-device UX state (visit count, page
+    stamps, reading progress — §19). Nothing may leave the device; this is
+    documented in the colophon.
 13. Wall-to-wall ALL-CAPS MONO labels (the 2026 "AI slop" tell). Mono is for
     meta text in sentence case, used sparingly — see §4.
 
@@ -209,6 +212,9 @@ and the JS skips the observer (elements render visible).
   Newsreader 400.
 - Images lazy + explicit dimensions. Lighthouse ≥ 90 target.
 - `syntaxHighlight: false` in astro config (see §9 code block).
+- No WebGL/Three.js. Scroll effects are CSS scroll-driven timelines (run off
+  the main thread) with the existing IO reveals as fallback. Total inline JS
+  stays ≤ 8 kB. No autoplay audio, ever.
 
 ## 15. Deployment
 
@@ -241,7 +247,7 @@ src/pages/                 routes incl. rss.xml.js, 404.astro
 src/utils/                 posts.ts (query/sort/reading time)
 ```
 
-## 17. Pre-merge audit (answer all 10, out loud, in the PR)
+## 17. Pre-merge audit (answer all 11, out loud, in the PR)
 
 1. Any gradient, radius, or blurred shadow? → must be no.
 2. Any banned font/emoji/purple? → no.
@@ -253,6 +259,8 @@ src/utils/                 posts.ts (query/sort/reading time)
 8. Is there a new effect that isn't one of the recurring techniques? → remove or justify.
 9. Does it still feel like a photocopied zine and not a template? → yes.
 10. Did DESIGN.md need changing? → change it in the same PR with the reason.
+11. Does the change serve the print-shop world and the one verb (scroll = the
+    press runs), or is it a scattered extra effect? (§19)
 
 ## 18. Per-post themes (interactive artifacts)
 
@@ -282,3 +290,28 @@ Rules:
   an unknown `theme` name is a build error, never a silent fallback.
 - Every theme must pass the §17 audit plus: "does it look like a real
   artifact of its subject, not a generic themed card?"
+
+## 19. Experience layer — "the print shop at night"
+
+The site is a world: a print shop at night. **One verb: scroll = the press
+runs.** Per-post themes (§18) are artifacts inside this world; the chrome
+stays zine.
+
+- **Cover shop front**: an inverted ink panel at the top of `/` (flat ink bg,
+  cream type — no glow). The ransom-note masthead scraps stamp in one by one
+  on load (`steps(6)`, staggered by `--i` — the press warm-up).
+- **Press roller**: a fixed bar that sweeps down the viewport with scroll,
+  site-wide, via `animation-timeline: scroll(root)`; hidden when
+  `@supports` fails or under reduced-motion.
+- **Ink bar**: 3px orange scroll-progress bar fixed at the top edge, same
+  technique (`scaleX` on `scroll(root)`).
+- **Memory (first-party localStorage only, on-device, never transmitted —
+  stated in the colophon)**: visit count → "copy no. N" line on the cover;
+  visited pages → footer stamp strip (one square per page, `title` = path) +
+  "N pages seen"; per-post reading progress (saved on scroll, throttled) →
+  "continue reading" card with ink-stain % at the top of `/writing`.
+- **Fallbacks**: without scroll-timeline support, the roller/ink bar hide and
+  reveals fall back to the IO observer; under `prefers-reduced-motion`
+  everything is static and fully readable.
+- **Budgets**: CSS timelines only for scroll effects (no scroll JS libraries),
+  inline JS ≤ 8 kB total, no WebGL, no autoplay audio.
