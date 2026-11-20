@@ -1,0 +1,65 @@
+---
+const stations = [
+  'Bank',
+  'St Paul’s',
+  'Chancery Lane',
+  'Holborn',
+  'Tottenham Court Road',
+  'Oxford Circus',
+  'Piccadilly Circus',
+  'Leicester Square',
+  'Covent Garden',
+  'Embankment',
+];
+---
+
+<div class="trainride" data-stations={stations.join('|')}>
+  <div class="scene">
+    <svg class="track-svg" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">
+      <line x1="0" y1="92" x2="1000" y2="92" stroke="var(--ink)" stroke-width="4" />
+      {
+        stations.map((_, i) => {
+          const x = 40 + i * (920 / (stations.length - 1));
+          return <line x1={x} y1="80" x2={x} y2="104" stroke="var(--ink)" stroke-width="3" />;
+        })
+      }
+    </svg>
+    <div class="train" aria-hidden="true">
+      <svg viewBox="0 0 120 62" width="120" height="62">
+        <rect x="4" y="6" width="112" height="42" fill="var(--tfl-red)" stroke="var(--ink)" stroke-width="3" />
+        <rect x="14" y="14" width="16" height="16" fill="#cfe6f5" stroke="var(--ink)" stroke-width="2" />
+        <rect x="38" y="14" width="16" height="16" fill="#cfe6f5" stroke="var(--ink)" stroke-width="2" />
+        <rect x="62" y="14" width="16" height="16" fill="#cfe6f5" stroke="var(--ink)" stroke-width="2" />
+        <rect x="86" y="14" width="16" height="16" fill="#cfe6f5" stroke="var(--ink)" stroke-width="2" />
+        <circle cx="30" cy="54" r="7" fill="var(--ink)" />
+        <circle cx="90" cy="54" r="7" fill="var(--ink)" />
+      </svg>
+    </div>
+  </div>
+  <p class="trainride-caption mono">now approaching: <strong class="station-name">Bank</strong></p>
+</div>
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  for (const ride of document.querySelectorAll('.trainride')) {
+    const train = ride.querySelector('.train') as HTMLElement;
+    const name = ride.querySelector('.station-name') as HTMLElement;
+    const stations = (ride.getAttribute('data-stations') || '').split('|');
+    const update = () => {
+      if (reduced) return;
+      const r = ride.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (window.innerHeight - r.top) / (window.innerHeight + r.height)));
+      const maxX = Math.max(0, r.width - 136);
+      train.style.transform = `translateX(${(progress * maxX).toFixed(1)}px)`;
+      const idx = Math.min(stations.length - 1, Math.floor(progress * stations.length));
+      name.textContent = stations[idx];
+    };
+    let raf = 0;
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+</script>

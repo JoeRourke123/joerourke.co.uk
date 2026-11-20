@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { u } from '../utils/url';
 ---
 
 <BaseLayout title="404" description="This page was misprinted.">
@@ -8,8 +9,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p class="big">404</p>
     <h1>This page was misprinted.</h1>
     <p>
-      The drum slipped and this one came out blank. <a href="/">Back to the cover</a> or
-      <a href="/writing/">read the writing</a> instead.
+      The drum slipped and this one came out blank. <a href={u('/')}>Back to the cover</a> or
+      <a href={u('/writing/')}>read the writing</a> instead.
     </p>
   </div>
 </BaseLayout>

@@ -5,6 +5,7 @@ import StampBadge from '../components/StampBadge.astro';
 import Sticker from '../components/Sticker.astro';
 import Ticker from '../components/Ticker.astro';
 import Doodles from '../components/Doodles.astro';
+import { u } from '../utils/url';
 
 const rows = [
   { href: '/writing/', label: 'Writing', hint: 'essays, notes, rants' },
@@ -17,7 +18,7 @@ const rows = [
   <div class="container cover">
     <Masthead text="JOE ROURKE" />
     <div class="cover-badges">
-      <StampBadge lines={['ISSUE No. 001', 'EST. 2026']} />
+      <StampBadge lines={['Issue no. 001', 'Est. 2026']} />
       <Sticker tilt={2.5} bg="var(--orange)">100% hand-set</Sticker>
       <Sticker tilt={-2}>No trackers</Sticker>
     </div>
@@ -31,7 +32,7 @@ const rows = [
     <nav class="cover-nav" aria-label="Sections">
       {
         rows.map((r) => (
-          <a class="row" href={r.href}>
+          <a class="row" href={u(r.href)}>
             <span class="label">{r.label}</span>
             <span class="hint">{r.hint}</span>
             <Doodles kind="arrow" width={56} />
@@ -42,12 +43,12 @@ const rows = [
   </div>
   <Ticker
     items={[
-      'Issue No. 001',
-      'Fresh ink',
-      'No trackers, no cookies',
-      'RSS at /rss.xml',
-      'Writing at /writing/',
-      'Made with paper, ink + Astro',
+      'Issue no. 001',
+      'fresh ink',
+      'no trackers, no cookies',
+      'rss at /rss.xml',
+      'writing at /writing/',
+      'made with paper, ink + Astro',
     ]}
   />
 </BaseLayout>

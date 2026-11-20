@@ -1,6 +1,7 @@
 ---
 import type { Post } from '../utils/posts';
 import { postSlug, readingTime, wordCount, formatDate } from '../utils/posts';
+import { u } from '../utils/url';
 
 interface Props {
   post: Post;
@@ -10,7 +11,7 @@ const slug = postSlug(post);
 ---
 
 <li class="reveal">
-  <a class="post-card" href={`/writing/${slug}/`}>
+  <a class="post-card" href={u(`/writing/${slug}/`)}>
     <div class="meta">
       <span>{formatDate(post.data.date)}</span>
       <span>{readingTime(post.body ?? '')} min read</span>

@@ -40,7 +40,9 @@ URL is `/writing/<filename>/`. Tags get their own pages at
 1. Push/merge to `main`.
 2. In repo **Settings → Pages → Build and deployment**: Source = **GitHub
    Actions**. (The workflow in `.github/workflows/deploy.yml` does the rest.)
-3. Optional custom domain: set **joerourke.co.uk** under Settings → Pages and
-   add the DNS records GitHub suggests. `astro.config.mjs` already assumes the
-   root domain; if you skip the custom domain, set `base: '/joerourke.co.uk'`
-   and `site: 'https://joerourke123.github.io'` there instead.
+3. The site then serves at **https://joerourke123.github.io/joerourke.co.uk/**
+   (`astro.config.mjs` defaults `base`/`site` to that project path; all links
+   go through the `u()` helper so they stay correct).
+4. Optional custom domain: set **joerourke.co.uk** under Settings → Pages,
+   add the DNS records GitHub suggests, then in `astro.config.mjs` set
+   `site: 'https://joerourke.co.uk'` and `base: '/'`.

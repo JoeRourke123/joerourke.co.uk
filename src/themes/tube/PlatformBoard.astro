@@ -1,0 +1,46 @@
+---
+const departures = [
+  { time: '07:41', dest: 'Elephant & Castle', due: '1 min' },
+  { time: '07:44', dest: 'Elephant & Castle', due: '4 min' },
+  { time: '07:47', dest: "Queen's Park", due: '7 min' },
+  { time: '07:52', dest: 'Harrow & Wealdstone', due: '12 min' },
+  { time: '07:58', dest: 'Stonebridge Park', due: '18 min' },
+];
+---
+
+<div class="pboard">
+  <div class="pboard-head">
+    Bakerloo line<span class="pboard-colon">:</span> southbound
+  </div>
+  <ol class="pboard-rows">
+    {
+      departures.map((d) => (
+        <li class="pboard-row">
+          <span class="pboard-time">{d.time}</span>
+          <span class="pboard-dest">{d.dest}</span>
+          <span class="pboard-due">{d.due}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="pboard-foot">platform 2 — mind the gap</p>
+</div>
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  for (const board of document.querySelectorAll('.pboard')) {
+    const rows = [...board.querySelectorAll('.pboard-row')];
+    if (reduced || rows.length < 2) continue;
+    let i = 0;
+    const tick = () => {
+      i = (i + 1) % rows.length;
+      rows.forEach((r, idx) => r.classList.toggle('now', idx === i));
+    };
+    tick();
+    let timer: number | undefined;
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) timer = window.setInterval(tick, 2500);
+      else if (timer) window.clearInterval(timer);
+    }).observe(board);
+  }
+</script>

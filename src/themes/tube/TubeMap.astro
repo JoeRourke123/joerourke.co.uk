@@ -1,0 +1,69 @@
+---
+// Simplified schematic map — hover/tab a line to isolate it; a train dot runs the Central line.
+const central = 'M 30 120 C 250 105, 520 140, 770 122';
+const victoria = 'M 60 215 L 380 120 L 720 55';
+const bakerloo = 'M 120 28 L 380 120 L 640 232';
+
+const centralStations: [number, number, string][] = [
+  [90, 120, 'Notting Hill Gate'],
+  [230, 118, 'Marble Arch'],
+  [380, 120, 'Oxford Circus'],
+  [560, 127, 'Bank'],
+  [720, 122, 'Liverpool Street'],
+];
+const victoriaStations: [number, number, string][] = [
+  [60, 215, 'Brixton'],
+  [205, 168, 'Stockwell'],
+  [380, 120, 'Oxford Circus'],
+  [560, 85, "King's Cross"],
+  [720, 55, 'Walthamstow Central'],
+];
+const bakerlooStations: [number, number, string][] = [
+  [120, 28, 'Paddington'],
+  [255, 74, 'Baker Street'],
+  [380, 120, 'Oxford Circus'],
+  [520, 176, 'Elephant & Castle'],
+];
+---
+
+<figure class="tubemap">
+  <svg viewBox="0 0 800 260" role="img" aria-label="Simplified schematic tube map: Central, Victoria and Bakerloo lines meeting at Oxford Circus">
+    <title>Simplified tube map — not to scale</title>
+    <g class="tline" tabindex="0">
+      <title>Central line</title>
+      <path d={central} fill="none" stroke="var(--tfl-red)" stroke-width="7" />
+      {centralStations.map(([x, y, name]) => (
+        <>
+          <circle cx={x} cy={y} r={x === 380 ? 9 : 5.5} fill="var(--paper)" stroke="var(--tfl-red)" stroke-width="3" />
+          <text class="tube-label" x={x + 10} y={y - 10}>{name}</text>
+        </>
+      ))}
+      <circle class="map-dot" r="6" fill="#fff" stroke="var(--tfl-red)" stroke-width="3">
+        <animateMotion dur="16s" repeatCount="indefinite" path={central} />
+      </circle>
+    </g>
+    <g class="tline" tabindex="0">
+      <title>Victoria line</title>
+      <path d={victoria} fill="none" stroke="var(--tfl-lblue)" stroke-width="7" />
+      {victoriaStations.map(([x, y, name]) => (
+        <>
+          <circle cx={x} cy={y} r={x === 380 ? 9 : 5.5} fill="var(--paper)" stroke="var(--tfl-lblue)" stroke-width="3" />
+          <text class="tube-label" x={x + 10} y={y + 18}>{name}</text>
+        </>
+      ))}
+    </g>
+    <g class="tline" tabindex="0">
+      <title>Bakerloo line</title>
+      <path d={bakerloo} fill="none" stroke="var(--tfl-brown)" stroke-width="7" />
+      {bakerlooStations.map(([x, y, name]) => (
+        <>
+          <circle cx={x} cy={y} r={x === 380 ? 9 : 5.5} fill="var(--paper)" stroke="var(--tfl-brown)" stroke-width="3" />
+          <text class="tube-label" x={x - 12} y={y - 12} text-anchor="end">{name}</text>
+        </>
+      ))}
+    </g>
+  </svg>
+  <figcaption class="tubemap-caption mono">
+    schematic, badly to scale — hover a line to isolate it
+  </figcaption>
+</figure>

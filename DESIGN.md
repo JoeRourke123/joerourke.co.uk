@@ -37,6 +37,8 @@ Any of these in a PR = reject the PR:
 11. Dark-mode-by-default or neon-on-dark. The site is paper. One inverted
     (ink-background) band is allowed per page for contrast.
 12. Trackers, analytics, cookies, cookie banners.
+13. Wall-to-wall ALL-CAPS MONO labels (the 2026 "AI slop" tell). Mono is for
+    meta text in sentence case, used sparingly — see §4.
 
 ## 3. Color tokens (the whole palette — nothing else)
 
@@ -74,8 +76,11 @@ Rules:
 - Display headings: `line-height: 0.9`, uppercase allowed, sizes via clamp:
   - cover masthead `clamp(3.5rem, 14vw, 10rem)`
   - h1 `clamp(2.6rem, 7vw, 5.5rem)` · h2 `clamp(2rem, 5vw, 3.5rem)` · h3 `clamp(1.4rem, 3vw, 2rem)`
-- Mono labels: `text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8125rem`.
-- No font is ever loaded from a third-party CDN.
+- Mono is for meta text (dates, tags, captions) in **sentence case**,
+  `letter-spacing: 0.02em; font-size: 0.8125rem`. Never uppercase walls of
+  labels (§2.13). Uppercase is reserved for Big Shoulders display headings.
+- No font is ever loaded from a third-party CDN (except inside a post theme,
+  where an artifact may demand a system stack — see §18).
 
 ## 5. Risograph texture rules
 
@@ -175,6 +180,8 @@ and the JS skips the observer (elements render visible).
 - Images colocated with the post (Astro assets) or in `public/`; `alt` text
   mandatory; all images get the duotone treatment (§5).
 - RSS at `/rss.xml` via `@astrojs/rss`, linked in footer and ticker.
+- Posts may be `.mdx` when they embed interactive components (see §18).
+- Optional front matter `theme: <name>` gives a post its own artifact style (§18).
 
 ## 12. Voice & copy rules (blog + pages)
 
@@ -209,9 +216,16 @@ and the JS skips the observer (elements render visible).
   `actions/upload-pages-artifact` and deploys with `actions/deploy-pages`
   (source: GitHub Actions). **Enabling Pages on the repo and any custom
   domain (joerourke.co.uk) is the owner's manual step** — the workflow file
-  ships ready. `site`/`base` in `astro.config.mjs` default to
-  `https://joerourke.co.uk` + `/`; change `base` if serving under a project
-  path instead.
+  ships ready.
+- `site`/`base` in `astro.config.mjs` default to the Pages **project path**:
+  `https://joerourke123.github.io/joerourke.co.uk` + `/joerourke.co.uk`.
+  For the custom domain joerourke.co.uk instead, set `base: '/'` and
+  `site: 'https://joerourke.co.uk'`.
+- **All internal links must go through `u()` (`src/utils/url.ts`, built on
+  `import.meta.env.BASE_URL`). Never hardcode absolute paths** — a hardcoded
+  `/` prefix breaks every asset/link under a project path (this exact bug
+  shipped once: unstyled page on github.io). RSS item links must be built
+  with `new URL(path, site)`.
 
 ## 16. File conventions
 
@@ -237,3 +251,32 @@ src/utils/                 posts.ts (query/sort/reading time)
 8. Is there a new effect that isn't one of the recurring techniques? → remove or justify.
 9. Does it still feel like a photocopied zine and not a template? → yes.
 10. Did DESIGN.md need changing? → change it in the same PR with the reason.
+
+## 18. Per-post themes (interactive artifacts)
+
+Each post may declare `theme: <name>` in front matter. The rest of the site
+stays on the global zine track (header, footer, post header); **the post body
+may become a bespoke artifact of its subject** — a tube post gets a schematic
+map, a live departure board, a scroll-driven train ride; a jobs post gets
+charts, an application form, a rejection email, and so on, interspersed within
+the prose as you scroll.
+
+Rules:
+
+- Themes live in `src/themes/<name>/`: a `Theme.astro` wrapper (imports its
+  own `theme.css`, scopes all styles under `.theme-<name>`) plus the components
+  the post imports inline in its `.mdx`.
+- A theme MAY locally override palette/type inside `.theme-<name>` to mimic
+  its real-world subject (TfL red/blue, LED amber, email-client chrome, system
+  font stacks) — that mimicry is the point. Global bans still apply inside
+  themes: no trackers, no external requests, no emoji, no decorative
+  gradients, WCAG AA text, keyboard operable, `prefers-reduced-motion`
+  honored with a static fallback.
+- Interactivity = vanilla JS/CSS inline in the component. No libraries, no
+  hydration frameworks. Pause animations when off-screen (IntersectionObserver).
+- Components are placed *within* the prose in the `.mdx` (import at top, use
+  between paragraphs), never dumped at the end.
+- PostLayout auto-discovers `src/themes/*/Theme.astro` via `import.meta.glob`;
+  an unknown `theme` name is a build error, never a silent fallback.
+- Every theme must pass the §17 audit plus: "does it look like a real
+  artifact of its subject, not a generic themed card?"
