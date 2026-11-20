@@ -1,0 +1,19 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+import { getPosts, postSlug, type Post } from '../../utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post: Post) => ({
+    params: { slug: postSlug(post) },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+---
+
+<PostLayout post={post} />

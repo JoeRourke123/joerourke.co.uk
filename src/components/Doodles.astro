@@ -1,0 +1,30 @@
+---
+// Hand-drawn inline SVGs — wobbly strokes, round caps (DESIGN.md §9).
+interface Props {
+  kind: 'arrow' | 'scribble' | 'circle';
+  width?: number;
+}
+const { kind, width = 64 } = Astro.props;
+---
+
+{
+  kind === 'arrow' && (
+    <svg class="arrow" width={width} height="28" viewBox="0 0 64 28" fill="none" aria-hidden="true">
+      <path d="M2 14 C 18 12, 40 16, 58 13 M 48 5 C 52 8, 56 11, 59 13 C 56 16, 52 20, 48 23" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round" />
+    </svg>
+  )
+}
+{
+  kind === 'scribble' && (
+    <svg width={width} height="12" viewBox="0 0 64 12" fill="none" aria-hidden="true">
+      <path d="M2 8 C 12 4, 22 10, 32 6 C 42 3, 52 9, 62 5" stroke="var(--orange)" stroke-width="3.5" stroke-linecap="round" />
+    </svg>
+  )
+}
+{
+  kind === 'circle' && (
+    <svg width={width} height="40" viewBox="0 0 64 40" fill="none" aria-hidden="true">
+      <path d="M32 4 C 12 3, 4 14, 6 22 C 8 34, 26 38, 40 35 C 56 32, 62 20, 56 11 C 51 4, 40 2, 30 4" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" />
+    </svg>
+  )
+}

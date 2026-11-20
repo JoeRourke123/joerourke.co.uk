@@ -1,0 +1,9 @@
+---
+interface Props {
+  tilt?: number;
+  bg?: string;
+}
+const { tilt = -3, bg = 'var(--paper)' } = Astro.props;
+---
+
+<span class="sticker" style={`--tilt:${tilt}deg;background:${bg}`}><slot /></span>

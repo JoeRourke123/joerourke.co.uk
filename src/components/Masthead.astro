@@ -1,0 +1,34 @@
+---
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+
+// Deterministic ransom-note scraps: seeded from char code + position,
+// so the masthead is stable across builds (DESIGN.md §9).
+const scraps = [...text].map((ch, i) => {
+  const seed = (ch.charCodeAt(0) * (i + 3)) % 97;
+  const rot = (seed % 7) - 3;
+  const dy = (seed % 5) - 2;
+  const scale = 0.94 + ((seed % 5) * 0.03).toFixed(2);
+  const w = [400, 700, 900][seed % 3];
+  const variant = seed % 6;
+  const bg = variant === 0 ? 'var(--orange)' : variant === 3 ? 'var(--blue)' : 'var(--paper)';
+  const color = variant === 3 ? 'var(--paper)' : 'var(--ink)';
+  return { ch, rot, dy, scale, w, bg, color };
+});
+---
+
+<h1 class="masthead" aria-label={text}>
+  {
+    scraps.map((s) => (
+      <span
+        class="scrap"
+        aria-hidden="true"
+        style={`--rot:${s.rot}deg;--dy:${s.dy}px;--scale:${s.scale};--w:${s.w};background:${s.bg};color:${s.color}`}
+      >
+        {s.ch === ' ' ? '\u00A0' : s.ch}
+      </span>
+    ))
+  }
+</h1>

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sticker from '../components/Sticker.astro';
+import Doodles from '../components/Doodles.astro';
+---
+
+<BaseLayout title="About" description="Who is Joe Rourke.">
+  <div class="container">
+    <header class="page-head">
+      <p class="mono">Who is this guy</p>
+      <h1 class="misreg" data-text="About">About</h1>
+    </header>
+    <div class="prose">
+      <!-- JOE: rewrite this page in your own words — this draft is a placeholder based on your public repos. -->
+      <p>
+        I'm Joe Rourke. I make software: iOS apps, a political city simulator in Godot, mods for
+        Cities: Skylines, small tools for my e-paper displays and reMarkable, travel scrapbooks,
+        budgeting backends — the list goes on, mostly because I can't stop starting things.
+      </p>
+      <p>
+        This site is the lab notebook for all of it. <Doodles kind="scribble" width={110} /> The old
+        version of this domain was a terminal you typed commands into. I got bored of it. This one is
+        a photocopier instead.
+      </p>
+      <p>
+        <Sticker tilt={-2.5} bg="var(--orange)">Human-operated</Sticker>
+      </p>
+      <p>
+        If you want to talk about any of it, the links are in the footer. I read everything.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

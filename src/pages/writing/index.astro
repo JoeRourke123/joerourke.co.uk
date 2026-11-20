@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts, allTags } from '../../utils/posts';
+
+const posts = await getPosts();
+const tags = allTags(posts);
+---
+
+<BaseLayout title="Writing" description="All writing — essays, notes and rants, newest first.">
+  <div class="container">
+    <header class="page-head">
+      <p class="mono">{posts.length} {posts.length === 1 ? 'entry' : 'entries'} — newest first</p>
+      <h1 class="misreg" data-text="Writing">Writing</h1>
+      {
+        tags.length > 0 && (
+          <div class="tag-row">
+            {tags.map((t) => (
+              <a class="tag-chip" href={`/writing/tag/${t}/`}>
+                {t}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </header>
+    {
+      posts.length === 0 ? (
+        <p class="prose">Nothing printed yet. The ink is still wet.</p>
+      ) : (
+        <ul class="post-list">
+          {posts.map((p) => (
+            <PostCard post={p} />
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>
