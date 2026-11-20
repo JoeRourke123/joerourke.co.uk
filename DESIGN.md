@@ -217,10 +217,12 @@ and the JS skips the observer (elements render visible).
   (source: GitHub Actions). **Enabling Pages on the repo and any custom
   domain (joerourke.co.uk) is the owner's manual step** — the workflow file
   ships ready.
-- `site`/`base` in `astro.config.mjs` default to the Pages **project path**:
-  `https://joerourke123.github.io/joerourke.co.uk` + `/joerourke.co.uk`.
-  For the custom domain joerourke.co.uk instead, set `base: '/'` and
-  `site: 'https://joerourke.co.uk'`.
+- `site`/`base` in `astro.config.mjs` default to the **custom domain root**:
+  `https://joerourke.co.uk` + `/` (Pages cname is set to joerourke.co.uk).
+  To serve at the Pages project path instead, set `site:
+  'https://joerourke123.github.io/joerourke.co.uk'` and `base: '/joerourke.co.uk'`.
+  Either way the deployment must match: wrong `base` = every asset 404s and
+  the page renders unstyled (this bug shipped twice, in both directions).
 - **All internal links must go through `u()` (`src/utils/url.ts`, built on
   `import.meta.env.BASE_URL`). Never hardcode absolute paths** — a hardcoded
   `/` prefix breaks every asset/link under a project path (this exact bug
